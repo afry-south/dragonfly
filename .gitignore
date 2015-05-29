@@ -1,6 +1,8 @@
 #ignore latex intermediate files
-*.aux
-*.toc
-*.synctex.gz
+doc/*.aux
+doc/*.toc
+doc/*.out
+doc/*.log
+doc/*.synctex.gz
 *.bbl
 *.blg
