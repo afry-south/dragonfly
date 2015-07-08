@@ -1,0 +1,20 @@
+\documentclass[12pt,article]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+\linespread{1.05}
+\usepackage{tikz}
+\usepackage{tikz-uml} 
+\usepackage{amsmath}
+\begin{document}
+\section{The first section}
+Just some random text
+\begin{center}
+\begin{tikzpicture}
+\umlemptyclass{A1}
+\umlemptyclass[x=4,y=-4]{A2}
+\umlcompo{A1}{A2}
+% And here
+\end{tikzpicture}
+\end{center}
+\end{document}
