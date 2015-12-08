@@ -27,6 +27,19 @@
     pdfpagelayout=TwoPageRight
 }
 
+% define namedlabel as per http://texblog.org/2012/03/21/cross-referencing-list-items/
+% this is used for naming the requirements.
+\usepackage{enumitem, hyperref}
+\usepackage{nameref}
+
+% suggestion from http://tex.stackexchange.com/questions/1230/reference-name-of-description-list-item-in-latex
+\makeatletter
+\newcommand{\labitem}[2]{%
+\def\@itemlabel{\textbf{#2}}
+\item
+\def\@currentlabel{#2}\label{#1}}
+\makeatother
+
 
 \title{Dragonfly Quadrotor UAV \\ Project Requirements Specification}
 \author{Daniel Stenberg \\ Nina Khayyami \\ Daniel Nilsson \\ Eduardo Riffo \\ Adam Steineck}
@@ -57,15 +70,25 @@ The \emph{Dragonfly} project is an internal competence enhancement project for Ã
 
 \section{Use cases}
 
-\subsection{Use case 1}
-\subsubsection{Requirement 2.1}
-\subsubsection{Requirement 2.2}
+\subsection{Use case 1: Navigate}
+\label{uc:navigate}
+\begin{enumerate}
+	\labitem{req:nav.1}{Navigate.1}: Navigate to a destination
+	\labitem{req:nav.2}{Navigate.2}: Navigate to start position
+\end{enumerate}
 
 
-\subsection{Use case 2}
-\subsubsection{Requirement 2.1}
-\subsubsection{Requirement 2.2}
+\subsection{Use case 2: Connection}
 
+\setlength{\parindent}{3cm}
+
+\begin{enumerate}
+\labitem{req:conn.1}{Connection.1}: The device shuold have a functional WiFi connection.
+\labitem{req:conn.2}{Connection.2}: The device should have a functional internet connection.
+\end{enumerate}
+
+\section{Example: Referring to requirements}
+Let's consider requirement \ref{req:nav.1} and \ref{req:nav.2}. Then consider \ref{req:conn.1}.
 
 
 \begin{thebibliography}{99}
