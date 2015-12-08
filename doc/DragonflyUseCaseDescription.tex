@@ -1,0 +1,132 @@
+\documentclass[a4paper]{article}
+
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{verbatim}   		% Useful for program listings
+\usepackage[T1]{fontenc}       	% For Swedish characters ÅÄÖ etc.
+\usepackage[utf8]{inputenc}
+% \usepackage[swedish]{babel} % For Swedish hyphenation
+\usepackage{fancyvrb}           	% For lists with tabulators
+\fvset{tabsize=4}              	 	% Tabulator size
+\fvset{fontsize=\small}         	% List font size
+\usepackage{graphicx}		% Imports the graphicx package, useful for images
+
+% generate clickable references & toc
+\usepackage[]{hyperref}
+\hypersetup{
+%    pdftitle={Your title here},
+%    pdfauthor={Your name here},
+%    pdfsubject={Your subject here},
+%    pdfkeywords={keyword1, keyword2},
+    bookmarksnumbered=true,
+    bookmarksopen=true,
+    bookmarksopenlevel=1,
+    colorlinks=true,
+    pdfstartview=Fit,
+    pdfpagemode=UseOutlines,    % this is the option you were lookin for
+    pdfpagelayout=TwoPageRight
+}
+
+\title{ Use cases for\\ Dragonfly Project}
+\author{Eduardo Riffo}
+\date{December, 2015}         		% Today's date if not specified
+
+\begin{document}                	% Start of document
+
+\maketitle                      	% Prints the title defined above with \title, \author and \date
+
+\begin{center}
+\vspace{64pt}
+\includegraphics[scale=1.6]{images/AF_Logotype20141_Black.png}
+\vspace{16pt}
+\\ \large ÅF Embedded Systems
+\end{center}
+
+\vspace{16pt}
+\begin{tabular}{ l l l p{8.5cm} }
+	Ver. & Date & Name & Description and Reason for change \\\hline
+	0.1 Draft & December 8, 2015 & Eduardo & Created document structure.\\
+\end{tabular}
+
+\newpage
+
+\tableofcontents					% Insert table of contents
+
+\newpage
+
+\section{Introduction}
+
+The \emph{Dragonfly} project is an internal competence enhancement project for ÅF employees. The goal is to combine technology, competence and experience from various engineering fields in order to construct a highly advanced quadrotor UAV system. This documents contains all current identified use cases for this project.
+
+\section{Definitions and Abriviations}
+
+\subsection{Actor}
+An actor is a person or other entity external to the software system being specified who interacts with the system and performs use cases to accomplish tasks. Different actors often correspond to different user classes, or roles, identified from the customer community that will use the product. Name the actor(s) that will be performing this use case.
+\subsection{Description}
+Provide a brief description of the reason for and outcome of this use case, or a high-level description of the sequence of actions and the outcome of executing the use case.
+\subsection{Preconditions}
+List any activities that must take place, or any conditions that must be true, before the use case can be started. Number each precondition. Examples:
+\begin{enumerate}
+	\item User’s identity has been authenticated.
+	\item User’s computer has sufficient free memory available to launch task.
+\end{enumerate}
+\subsection{Postconditions}
+Describe the state of the system at the conclusion of the use case execution. Number each postcondition. Examples:
+\begin{enumerate}
+	\item Document contains only valid SGML tags.
+	\item Price of item in database has been updated with new value.
+\end{enumerate}
+\subsection{Priority}
+Indicate the relative priority of implementing the functionality required to allow this use case to be executed. The priority scheme used must be the same as that used in the software requirements specification.
+\subsection{Priority}
+Indicate the relative priority of implementing the functionality required to allow this use case to be executed. The priority scheme used must be the same as that used in the software requirements specification.
+\subsection{Frequency of Use}
+Estimate the number of times this use case will be performed by the actors per some appropriate unit of time.
+\subsection{Normal Course of Events}
+Provide a detailed description of the user actions and system responses that will take place during execution of the use case under normal, expected conditions. This dialog sequence will ultimately lead to accomplishing the goal stated in the use case name and description. This description may be written as an answer to the hypothetical question, “How do I <accomplish the task stated in the use case name>?” This is best done as a numbered list of actions performed by the actor, alternating with responses provided by the system
+\subsection{Alternative Courses}
+Document other, legitimate usage scenarios that can take place within this use case separately in this section. State the alternative course, and describe any differences in the sequence of steps that take place. Number each alternative course using the Use Case ID as a prefix, followed by “AC” to indicate “Alternative Course”. Example:  X.Y.AC.1.
+\subsection{Exceptions}
+Describe any anticipated error conditions that could occur during execution of the use case, and define how the system is to respond to those conditions. Also, describe how the system is to respond if the use case execution fails for some unanticipated reason. Number each exception using the Use Case ID as a prefix, followed by “EX” to indicate “Exception”. Example:  X.Y.EX.1.
+\subsection{Includes}
+List any other use cases that are included (“called”) by this use case. Common functionality that appears in multiple use cases can be split out into a separate use case that is included by the ones that need that common functionality.
+\subsection{Special Requirements}
+Identify any additional requirements, such as nonfunctional requirements, for the use case that may need to be addressed during design or implementation. These may include performance requirements or other quality attributes
+\subsection{Assumptions}
+List any assumptions that were made in the analysis that led to accepting this use case into the product description and writing the use case description.
+\subsection{Notes and Issues}
+List any additional comments about this use case or any remaining open issues or TBDs (To Be Determineds) that must be resolved. Identify who will resolve each issue, the due date, and what the resolution ultimately is.
+
+\newpage
+
+\section{Use Case XXX Template}
+\subsection{Use case name , ID, creation date and created by }
+TBD
+\subsection{Actor}
+TBD
+\subsection{Description}
+TBD
+\subsection{Preconditions}
+TBD
+\subsection{Postconditions}
+TBD
+\subsection{Priority}
+TBD
+\subsection{Frequency of use}
+TBD
+\subsection{Normal course of events}
+TBD
+\subsection{Alternative courses}
+TBD
+\subsection{Exceptions}
+TBD
+\subsection{includes}
+TBD
+\subsection{Special requirements}
+TBD
+\subsection{Assumtions}
+TBD
+\subsection{Notes and issues}
+TBD
+
+\end{document}                  % End of document
