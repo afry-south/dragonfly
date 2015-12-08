@@ -87,6 +87,19 @@ The \emph{Dragonfly} project is an internal competence enhancement project for Ã
 \labitem{req:conn.2}{Connection.2}: The device should have a functional internet connection.
 \end{enumerate}
 
+\subsection{Use case 3: Safety}
+
+\begin{enumerate}
+\labitem{req:safe.1}{Safety.1}: The device must have a panic-mode, where:
+\begin{itemize}
+\item engines are switched off.
+\item last known position of the device is made available remotely.
+\end{itemize}
+\labitem{req:safe.2}{Safety.2}: The user must be able to set the DragonFly in panic-mode through the controller.
+\labitem{req:safe.3}{Safety.3}: The device must avoid collisions.
+\labitem{req:safe.4}{Safety.4}: In case of a collision, the device must automatically switch to panic-mode.
+\end{enumerate}
+
 \section{Example: Referring to requirements}
 Let's consider requirement \ref{req:nav.1} and \ref{req:nav.2}. Then consider \ref{req:conn.1}.
 
