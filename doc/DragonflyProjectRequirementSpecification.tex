@@ -1,0 +1,75 @@
+\documentclass[a4paper]{article}
+
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{verbatim}   		% Useful for program listings
+\usepackage[T1]{fontenc}       	% For Swedish characters ÅÄÖ etc.
+\usepackage[utf8]{inputenc}
+% \usepackage[swedish]{babel} % For Swedish hyphenation
+\usepackage{fancyvrb}           	% For lists with tabulators
+\fvset{tabsize=4}              	 	% Tabulator size
+\fvset{fontsize=\small}         	% List font size
+\usepackage{graphicx}		% Imports the graphicx package, useful for images
+
+% generate clickable references & toc
+\usepackage[]{hyperref}
+\hypersetup{
+%    pdftitle={Your title here},
+%    pdfauthor={Your name here},
+%    pdfsubject={Your subject here},
+%    pdfkeywords={keyword1, keyword2},
+    bookmarksnumbered=true,
+    bookmarksopen=true,
+    bookmarksopenlevel=1,
+    colorlinks=true,
+    pdfstartview=Fit,
+    pdfpagemode=UseOutlines,    % this is the option you were lookin for
+    pdfpagelayout=TwoPageRight
+}
+
+
+\title{Dragonfly Quadrotor UAV \\ Project Requirements Specification}
+\author{Daniel Stenberg \\ Nina Khayyami \\ Daniel Nilsson \\ Eduardo Riffo \\ Adam Steineck}
+
+\date{December, 2015}         		% Today's date if not specified
+
+
+\begin{document}                	% Start of document
+
+\maketitle                      		% Prints the title defined above with \title, \author and \date
+
+\begin{center}
+\vspace{64pt}
+\includegraphics[scale=1.6]{images/AF_Logotype20141_Black.png}
+\vspace{16pt}
+\\ \large ÅF Technology
+\end{center}
+
+\newpage
+
+\tableofcontents				% Insert table of contents
+
+\newpage
+
+\section{Introduction}
+
+The \emph{Dragonfly} project is an internal competence enhancement project for ÅF Technology employees. The goal is to combine technology, competence and experience from various engineering fields in order to construct a highly advanced quadrotor UAV system. The focus of the Flight Control Board development deals with low-level maneuvering of the aircraft, calculating motor command based on a feedback control system. Some of the major technologies deployed to attain this are control theory, electronics and software development.
+
+\section{Use cases}
+
+\subsection{Use case 1}
+\subsubsection{Requirement 2.1}
+\subsubsection{Requirement 2.2}
+
+
+\subsection{Use case 2}
+\subsubsection{Requirement 2.1}
+\subsubsection{Requirement 2.2}
+
+
+
+\begin{thebibliography}{99}
+\bibitem{stenberg} Model-based Design Development and Control of a Wind Resistant Multirotor UAV, C. Månsson, D. Stenberg, Lunds Tekniska Högskola 2014
+\end{thebibliography}
+
+\end{document}                  % End of document
