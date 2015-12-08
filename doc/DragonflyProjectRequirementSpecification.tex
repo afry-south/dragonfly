@@ -40,6 +40,32 @@
 \def\@currentlabel{#2}\label{#1}}
 \makeatother
 
+% just a work-in-progress idea
+
+% usage: \usecase{cross-reference}{display-reference} text text ...
+\newcommand{\usecase}[2]{
+  \subsection*{#2}
+  \label{#1}
+  \addcontentsline{toc}{subsection}{\nameref{#1}}
+}
+
+
+% usage: \scenario{cross-reference}{display-reference} text text ...
+\newcommand{\scenario}[2]{
+  \subsubsection*{#2}
+  \label{#1}
+  \addcontentsline{toc}{subsubsection}{\nameref{#1}}
+}
+
+% usage: \requirement{cross-reference}{display-reference} text text ...
+\newcommand{\requirement}[2]{
+  \paragraph*{#2:}
+  \label{#1}
+  \addcontentsline{toc}{paragraph}{\nameref{#1}}
+}
+
+
+
 
 \title{Dragonfly Quadrotor UAV \\ Project Requirements Specification}
 \author{Daniel Stenberg \\ Nina Khayyami \\ Daniel Nilsson \\ Eduardo Riffo \\ Adam Steineck}
@@ -126,24 +152,19 @@ The \emph{Dragonfly} project is an internal competence enhancement project for �
 
 
 \section{Layout Experiments}
-\subsection*{UC1: Navigate}
-\label{uc:nav}
-\addcontentsline{toc}{subsection}{\nameref{uc:nav}}
-\subsubsection*{Navigate.1}
-\label{req:nav.1}
-\addcontentsline{toc}{subsubsection}{\nameref{req:nav.1}}
-Navigare necesse est!
 
-\subsubsection*{Navigate.2}
-\label{req:nav.2}
-Didier Dupont, navigateur.
+\usecase{uc:cross-reference}{UC:display-reference}Use case text. Use case text.Use case text.Use case text.Use case text.
+\scenario{sc:cross-reference}{SC:display-reference}Scenario text. Scenario text. Scenario text. Scenario text. Scenario text. Scenario text.
+\requirement{req:cross-reference}{REQ:display-reference}Requirement text. Requirement text. Requirement text. Requirement text. Requirement text. Requirement text.
+
+
 
 \section{Example: Referring to requirements}
 \subsection{Referring to reqs by itemlabel}
 Let's consider requirement \ref{req:nav.1} and \ref{req:nav.2}. Then consider \ref{req:conn.1}.
 
-\subsection{Referring to reqs by concoction}
-Thus, we look at \nameref{uc:1} and requirements \nameref{req:nav.1}.
+\subsection{Referring to experimentation section}
+Thus, we look at \nameref{uc:1} and requirements \nameref{req:nav.1}. Also check out use case \nameref{uc:cross-reference}, scenario \nameref{sc:cross-reference} and reqirement \nameref{req:cross-reference}.
 
 \begin{thebibliography}{99}
 \bibitem{stenberg} Model-based Design Development and Control of a Wind Resistant Multirotor UAV, C. Månsson, D. Stenberg, Lunds Tekniska Högskola 2014
