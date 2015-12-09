@@ -47,6 +47,7 @@
 	Ver. & Date & Name & Description and Reason for change \\\hline
 	0.1 Draft & December 8, 2015 & Eduardo & Created document structure.\\
 	0.2  & December 8, 2015 & Eduardo & Added usecase "Charge the quadcopter battery".\\
+	0.3  & December 8, 2015 & Eduardo & Modified usecase "Charge the quadcopter battery".\\
 \end{tabular}
 
 \newpage
@@ -113,14 +114,14 @@ List any additional comments about this use case or any remaining open issues or
 \subsection{Actor}
 Quadcopter unit, Quadcopter user
 \subsection{Description}
-This use case covers the the functionality provided by subsystem handling of the interaction between quadcopter and battery charging base. Use case includes functional and non-functional behaviours of the charging subsystem/classifier.
+This use case covers the functionality provided by subsystem handling of the interaction between quadcopter and battery charging base. Use case includes functional and non-functional behaviors of the charging subsystem/classifier.
 
 \subsection{Preconditions}
 The following constraints must be true to be able to run the scenarios within this use case.
 \begin{itemize}
-	\item The actor must have receiver capability from a hardware perpective.
+	\item The actor must have receiver capability from a hardware perspective.
 	\item The subsystem have transmitter capabilities from a hardware perspective.
-	\item Ensure that the transmitter furfills all the safety requirements.
+	\item Ensure that the transmitter fulfills all the safety requirements.
 \end{itemize}
 \subsection{Postconditions}
 The following constraint must be true after completing the scenarios of this use case.
@@ -131,28 +132,28 @@ The following constraint must be true after completing the scenarios of this use
 \subsection{Priority}
 The scenarios of this use case, or rather it's subsystem, should have high priority to be able meet the classifiers objectives.
 \subsection{Frequency of use}
-The scearios of this use case will occur frequently, several times a day depending on the usage.
+The scenarios of this use case will occur frequently, several times a day depending on the actor usage.
 \subsection{Normal course of events}
 This use case has the following scenarios with the normal course of events:
 \begin{itemize}
-	\item Quadcopter unit initiated charging. Form now on called \textit{automatic charging}.
+	\item Quadcopter unit initiated charging. From now on called \textit{automatic charging}.
 	\item Quadcopter user initiated charging. From now on called \textit{manual charging}.
 \end{itemize}
 \subsection{Alternative courses}
 If the charging subsystem fails to cope with either automatic or manual charging,
-the following alternative scenarios must be followed:
+The following alternative scenarios must be followed:
 \begin{itemize}
 	\item Manual: Suggest alternative battery charging base.
 	\item Automatic: Redirect to alternative battery charging base.
 \end{itemize}
-If the there is no alternative cgarging base or if alternative base is to far away,
+If the there is no alternative charging base or if alternative base is to far away,
 the following alternative scenarios must be followed:
 \begin{itemize}
 	\item Manual: Inform quadcopter user that charging failed. Let user take action.
 	\item Automatic: Close down quadcopter in an orderly manner.
 \end{itemize}
 \subsection{Exceptions}
-If the charging subsystem fails to response due to exeptions, the following scenarios must be followed:
+If the charging subsystem fails to response due to exceptions, the following scenarios must be followed:
 \begin{itemize}
 	\item Manual: Inform quadcopter user that charging failed. Let user take action.
 	\item Automatic: Close down quadcopter in an orderly manner.
@@ -160,11 +161,11 @@ If the charging subsystem fails to response due to exeptions, the following scen
 \subsection{includes}
 Safety UC, Connection UC, Navigation UC
 \subsection{Special requirements}
-Safety regulations regarding the receiver and transmitter must be very strict, error margin must be zero for this type of operation, so this must be measurable even if it is  a nonfunctional requirements. 
-\subsection{Assumtions}
+Safety regulations regarding the receiver and transmitter must be very strict, so this must be measurable even if it is  a nonfunctional requirements. Voltage rails must be defined.
+\subsection{Assumptions}
 N/A
 \subsection{Notes and issues}
-Work ongoing to define the voltage budget used by the diffrent hardware modules and thereby optimize chanrging form a hardware perspective.
+Work ongoing to define the voltage budget used by the different hardware modules and thereby optimize charging form a hardware perspective.
 
 \section{Use Case XXX Template}
 \subsection{Use case name , ID, creation date and created by }
@@ -191,7 +192,7 @@ TBD
 TBD
 \subsection{Special requirements}
 TBD
-\subsection{Assumtions}
+\subsection{Assumptions}
 TBD
 \subsection{Notes and issues}
 TBD
