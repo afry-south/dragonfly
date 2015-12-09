@@ -1,3 +1,4 @@
+
 \documentclass[a4paper]{article}
 
 \usepackage{url}
@@ -96,22 +97,21 @@ The \emph{Dragonfly} project is an internal competence enhancement project for Ã
 
 \section{Use cases}
 
-\subsection{Use case 1: Navigate}
-\label{uc:navigate}
-\begin{enumerate}
-	\labitem{req:nav.1}{Navigate.1}: Navigate to a destination
-	\labitem{req:nav.2}{Navigate.2}: Navigate to start position
-\end{enumerate}
 
+\usecase{uc:navigate}{UC:Navigate}
+\scenario{sc:cxn.sunny}{SC:Nav-Sunny} GPS and map data available.
+\requirement{req:nav.sunny.1}{Nav.Sunny.1} Navigate to a destination.
+\requirement{req:nav.sunny.2}{Nav.Sunny.2} Navigate to start position. The start position is position of lift-off.
 
-\subsection{Use case 2: Connection}
+\scenario{sc:cxn.rainy}{SC:Nav-Rainy} GPS not available.
+\requirement{req:nav.rainy.1}{Nav.Rainy.1} User shall be notified that navigation is unavailable with cause.
 
-\setlength{\parindent}{3cm}
+\usecase{uc:cxn}{UC:Connection}
 
-\begin{enumerate}
-\labitem{req:conn.1}{Connection.1}: The device shuold have a functional WiFi connection.
-\labitem{req:conn.2}{Connection.2}: The device should have a functional internet connection.
-\end{enumerate}
+\scenario{sc:cxn-ok}{SC:Cxn-Sunny}
+\requirement{req:cxn.sunny.wifi}{Cxn.Sunny.1}: The device should have a functional WiFi connection.
+\requirement{req:can.sunny.wless}{Cxn.Sunny.2}: The device should have a functional wireless connection.
+
 
 \subsection{Use case 3: Safety}
 
@@ -151,20 +151,25 @@ The \emph{Dragonfly} project is an internal competence enhancement project for Ã
 \end{enumerate}
 
 
-\section{Layout Experiments}
-
-\usecase{uc:cross-reference}{UC:display-reference}Use case text. Use case text.Use case text.Use case text.Use case text.
-\scenario{sc:cross-reference}{SC:display-reference}Scenario text. Scenario text. Scenario text. Scenario text. Scenario text. Scenario text.
-\requirement{req:cross-reference}{REQ:display-reference}Requirement text. Requirement text. Requirement text. Requirement text. Requirement text. Requirement text.
-
+\section{Example}
+\subsection{It's still possible to use the vanilla sections}
+And they will appear like use cases etc in the table of contents.
+\usecase{uc:cross-reference}{UC:display-reference} Use case text. Use case text.Use case text.Use case text.Use case text.
+\scenario{sc:cross-reference}{SC:display-reference} Scenario text. Scenario text. Scenario text. Scenario text. Scenario text. Scenario text.
+\requirement{req:cross-reference}{REQ:display-reference} Requirement text. Requirement text. Requirement text. Requirement text. Requirement text. Requirement text.
 
 
 \section{Example: Referring to requirements}
 \subsection{Referring to reqs by itemlabel}
-Let's consider requirement \ref{req:nav.1} and \ref{req:nav.2}. Then consider \ref{req:conn.1}.
+Use \verb!\ref!to refer to the \verb!\labitem! requirements. Let's consider requirement \ref{req:cf.5} and \ref{req:cf.6}.
 
-\subsection{Referring to experimentation section}
-Thus, we look at \nameref{uc:1} and requirements \nameref{req:nav.1}. Also check out use case \nameref{uc:cross-reference}, scenario \nameref{sc:cross-reference} and reqirement \nameref{req:cross-reference}.
+\subsection{Referring to newcommand uc, scenario and requirements.}
+It is preferred to use the \verb!\nameref! to refer to the use cases, scenarios and requirements.
+Thus, we look at use case \nameref{uc:navigate} scenario \nameref{sc:cxn.sunny} and requirements \nameref{req:cxn.sunny.wifi}.
+
+\subsection{Sandbox of referring to newcommands}
+\nameref{uc:cross-reference}, scenario \nameref{sc:cross-reference} and reqirement \nameref{req:cross-reference}.
+
 
 \begin{thebibliography}{99}
 \bibitem{stenberg} Model-based Design Development and Control of a Wind Resistant Multirotor UAV, C. MÃ¥nsson, D. Stenberg, Lunds Tekniska HÃ¶gskola 2014
