@@ -49,6 +49,7 @@
 	0.2  & December 8, 2015 & Eduardo & Added usecase "Charge the quadcopter battery".\\
 	0.3  & December 8, 2015 & Eduardo & Modified usecase "Charge the quadcopter battery".\\
 	0.4	& December 9, 2015	& Nina	& Added usecase "Safety".\\
+	0.5	& December 9, 2015	& Nina	& Modified usecase "Safety", including changing the name to "Safety of humans, objects and the quadcopter".\\
 \end{tabular}
 
 \newpage
@@ -204,17 +205,19 @@ TBD
 The scenarios of this use case will occur frequently, depending on the actor usage.
 \subsection{Normal course of events}
 This use case has the following scenarios with the normal course of events:
-Vadå ska det vara det vi ska undvika, eller ska jag lista alla grejer som ska hända? Panic mode etc.
 \begin{itemize}
-\item Quadcopter unit flies within the safety distance of a human and/or object.
-\item Quadcopter unit crashes.
 \item Quadcopter unit detects a human and/or an object and changes the route to avoid flying within the safety distance of the human and/or object.
-\item Quadcopter unit is about to fly outside the 
 \end{itemize}
 \subsection{Alternative courses}
-TBD
+If the safety subsystem fails to avoid humans and/or objects, the following alternative scenarios must be followed:
+\begin{itemize}
+\item Quadcopter unit flies within the safety distance of a human and/or an object and automatically switches to panic-mode.
+\end{itemize}
 \subsection{Exceptions}
-TBD
+If the safety subsystem fails to response due to exceptions, the following scenarios must be followed:
+\begin{itemize}
+\item If the quadcopter unit flies within the safety distance of a human and/or and object and fails to automatically switch to panic-mode, the user must be able to switch to panic-mode through the RC controller.
+\end{itemize}
 \subsection{includes}
 TBD
 \subsection{Special requirements}
