@@ -49,7 +49,7 @@
 	0.2  & December 8, 2015 & Eduardo & Added usecase "Charge the quadcopter battery".\\
 	0.3  & December 8, 2015 & Eduardo & Modified usecase "Charge the quadcopter battery".\\
 	0.4	& December 9, 2015	& Nina	& Added usecase "Safety".\\
-	0.5	& December 9, 2015	& Nina	& Modified usecase "Safety", including changing the name to "Safety of humans, objects and the quadcopter".\\
+	0.5	& December 9, 2015	& Nina	& Modified usecase "Safety", including changing the name to "Safety of humans, objects and quadcopter unit".\\ 
 \end{tabular}
 
 \newpage
@@ -62,7 +62,7 @@
 
 The \emph{Dragonfly} project is an internal competence enhancement project for ÅF employees. The goal is to combine technology, competence and experience from various engineering fields in order to construct a highly advanced quadrotor UAV system. This documents contains all current identified use cases for this project.
 
-\section{Definitions and Abriviations}
+\section{Definitions and Abbreviations}
 
 \subsection{Actor}
 An actor is a person or other entity external to the software system being specified who interacts with the system and performs use cases to accomplish tasks. Different actors often correspond to different user classes, or roles, identified from the customer community that will use the product. Name the actor(s) that will be performing this use case.
@@ -80,8 +80,6 @@ Describe the state of the system at the conclusion of the use case execution. Nu
 	\item Document contains only valid SGML tags.
 	\item Price of item in database has been updated with new value.
 \end{enumerate}
-\subsection{Priority}
-Indicate the relative priority of implementing the functionality required to allow this use case to be executed. The priority scheme used must be the same as that used in the software requirements specification.
 \subsection{Priority}
 Indicate the relative priority of implementing the functionality required to allow this use case to be executed. The priority scheme used must be the same as that used in the software requirements specification.
 \subsection{Frequency of Use}
@@ -162,13 +160,13 @@ If the charging subsystem fails to response due to exceptions, the following sce
 	\item Manual: Inform quadcopter user that charging failed. Let user take action.
 	\item Automatic: Close down quadcopter in an orderly manner.
 \end{itemize}
-\subsection{includes}
+\subsection{Includes}
 Safety UC, Connection UC, Navigation UC
 \subsection{Special requirements}
 Safety regulations regarding the receiver and transmitter must be very strict, so this must be measurable even if it is  a nonfunctional requirements. Voltage rails must be defined.
 \subsection{Assumptions}
 N/A
-\subsection{Notes and issues}
+\subsection{Notes and Issues}
 Work ongoing to define the voltage budget used by the different hardware modules and thereby optimize charging form a hardware perspective.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -187,12 +185,13 @@ Work ongoing to define the voltage budget used by the different hardware modules
 \subsection{Actor}
 Quadcopter unit, Quadcopter user
 \subsection{Description}
-This use case covers the safety of humans, objects and the quadcopter itself while the quadcopter is in use. The use case includes functional and non-functional behaviours of the safety aspect. 
+This use case covers scenarios regarding safety of humans, objects and the quadcopter unit while the unit is in use. The use case includes functional and non-functional behaviours of the safety aspect using the quadcopter unit. 
 \subsection{Preconditions}
 The following constraints must be true to be able to run the scenarios within this use case.
 \begin{itemize}
-\item The quadcopter unit has parts that can harm or injure humans, objects or the quadcopter itself.
-\item The quadcopter unit must be able to fly.
+\item The quadcopter unit has parts that may harm or injure humans, objects or the quadcopter itself.
+\item The location of the quadcopter unit is above ground.
+\item Panic-mode button is always enabled on the RC controller.
 \end{itemize}
 \subsection{Postconditions}
 The following constraints must be true after completing the scenarios of this use case.
@@ -200,32 +199,32 @@ The following constraints must be true after completing the scenarios of this us
 \item Humans, objects or the quadcopter itself must not be harmed. The quadcopter unit may be harmed if it is the only way to avoid harming humans and/or other objects.
 \end{itemize}
 \subsection{Priority}
-TBD
+The scenario of this use case should have the highest prioritiy to be able to meet the classifiers objectives.
 \subsection{Frequency of use}
-The scenarios of this use case will occur frequently, depending on the actor usage.
+The scenarios of this use case will not occur frequently, depending on the actor usage.
 \subsection{Normal course of events}
 This use case has the following scenarios with the normal course of events:
 \begin{itemize}
-\item Quadcopter unit detects a human and/or an object and changes the route to avoid flying within the safety distance of the human and/or object.
+\item Quadcopter unit detects a human or an object and changes the route to avoid flying within the critical distance of the human or object.
 \end{itemize}
 \subsection{Alternative courses}
-If the safety subsystem fails to avoid humans and/or objects, the following alternative scenarios must be followed:
+If the safety subsystem fails to avoid humans or objects, the following alternative scenarios must be followed:
 \begin{itemize}
-\item Quadcopter unit flies within the safety distance of a human and/or an object and automatically switches to panic-mode.
+\item Quadcopter unit flies within the critical distance of a human or an object and automatically switches to panic-mode.
 \end{itemize}
 \subsection{Exceptions}
 If the safety subsystem fails to response due to exceptions, the following scenarios must be followed:
 \begin{itemize}
-\item If the quadcopter unit flies within the safety distance of a human and/or and object and fails to automatically switch to panic-mode, the user must be able to switch to panic-mode through the RC controller.
+\item If the quadcopter unit flies within the critical distance of a human or an object and fails to automatically switch to panic-mode, the user must be able to switch to panic-mode through the RC controller.
 \end{itemize}
-\subsection{includes}
-TBD
+\subsection{Includes}
+All use cases are affected by the safety use case.
 \subsection{Special requirements}
-TBD
+The distance between the quadcopter and a human or an object is measured as the shortest distance from all angles of the quadcopter.
 \subsection{Assumptions}
-TBD
-\subsection{Notes and issues}
-TBD
+N/A
+\subsection{Notes and Issues}
+N/A
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				TEMPLATE
@@ -258,13 +257,13 @@ TBD
 TBD
 \subsection{Exceptions}
 TBD
-\subsection{includes}
+\subsection{Includes}
 TBD
 \subsection{Special requirements}
 TBD
 \subsection{Assumptions}
 TBD
-\subsection{Notes and issues}
+\subsection{Notes and Issues}
 TBD
 
 \end{document}                  % End of document
