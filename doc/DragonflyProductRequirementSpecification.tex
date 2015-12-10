@@ -115,6 +115,28 @@ The \emph{Dragonfly} project is an internal competence enhancement project for Ã
 
 \usecase{uc:cxn}{UC:Safety}
 
+\section{Sub-system: Charging}
+
+\scenario{sc:Quadcopter unit initiated initiated  charging}{SC:Quadcopter unit initiated charging}
+\requirement{req:PRS-CH001}{PRS-CH001}: The Quadcopter unit must have receiver coil attached to receiver cuircuit and a balanced server charger.
+\requirement{req:PRS-CH002}{PRS-CH002}: The Quadcopter receiver and transmitter must be placed within a fixed distance.
+\requirement{req:PRS-CH003}{PRS-CH003}: The Quadcopter unit must implement a software based capacity monitor.
+\requirement{req:PRS-CH004}{PRS-CH004}: The charging base must consist of a main power supply, transmitter circuit and transmitter coil.
+\requirement{req:PRS-CH005}{PRS-CH005}: Charging base must enable power supply manually User interaction is mandatory for this process, since it involves tweaking the voltage.
+\scenario{sc:Quadcopter user initiated charging}{SC:Quadcopter user initiated charging}
+\requirement{req:PRS-CH006}{PRS-CH006}: Enable balanced server charger manually.
+\requirement{req:PRS-CH007}{PRS-CH007}: Investigate if Ichanger used in project can be controlled automatically  through software.
+\requirement{req:PRS-CH008}{PRS-CH008}: Motion sensors needs to be enabled to guaranty effective charging.
+\requirement{req:PRS-CH009}{PRS-CH009}: Mechanism to turn the power supply off should be implement if possible. Monitoring of charging process must be done to avoid overheating and unnecessary  power consumption.
+\requirement{req:PRS-CH010}{PRS-CH010}: Charging notifications must be implemented and sent to users or quadcopter unit.
+\scenario{sc:Suggest alternative charging base}{SC:Suggest alternative charging base}
+\requirement{req:PRS-CH011}{PRS-CH011}: Suggest the nearest charging base to user, but let the user make decision.
+\scenario{sc:Redirect to alternative charging base}{SC:Redirect to alternative charging base}
+\requirement{req:PRS-CH012}{PRS-CH012}: Automatic charging redirection to charging base must be supported by Quadcopter unit.
+\requirement{req:PRS-CH013}{PRS-CH013}: Charging base should be covered by plastic glass with a predetermined thickness.
+
+
+
 \subsection{Use case 3: Safety}
 
 \begin{enumerate}
