@@ -113,8 +113,6 @@ The \emph{Dragonfly} project is an internal competence enhancement project for Ã
 \requirement{req:cxn.sunny.wifi}{Cxn.Sunny.1}: The device should have a functional WiFi connection.
 \requirement{req:can.sunny.wless}{Cxn.Sunny.2}: The device should have a functional wireless connection.
 
-\usecase{uc:cxn}{UC:Safety}
-
 \section{Sub-system: Charging}
 
 \scenario{sc:Quadcopter unit initiated initiated  charging}{SC:Quadcopter unit initiated charging}
@@ -135,21 +133,24 @@ The \emph{Dragonfly} project is an internal competence enhancement project for Ã
 \requirement{req:PRS-CH012}{PRS-CH012}: Automatic charging redirection to charging base must be supported by Quadcopter unit.
 \requirement{req:PRS-CH013}{PRS-CH013}: Charging base should be covered by plastic glass with a predetermined thickness.
 
+\section{Sub-system: Safety}
 
-
-\subsection{Use case 3: Safety}
-
-\begin{enumerate}
-\labitem{req:safe.1}{Safety.1}: The device must have a panic-mode, where:
+\scenario{sc:safety.detection}{SC: Quadcopter unit detects a human or an object blocking the route; the motor speed is lowered and the quadcopter unit enters hoovering-mode.}
+\requirement{req:PRS-SA001}{PRS-SA001} The quadcopter unit shall have a detection unit.
+\requirement{req:PRS-SA002}{PRS-SA002} The quadcopter unit shall detect humans and objects that appear within a specified distance from the quadcopter unit.
+\requirement{req:PRS-SA003}{PRS-SA003} The quadcopter unit shall have a hoovering-mode, where:
+\begin{itemize}
+\item motor speed is lowered.
+\item
+\end{itemize}
+\scenario{sc:safety.avoidance}{SC: Quadcopter unit detects a human or an object blocking the route; the route is changed to avoid the obstacle}
+\requirement{req:PRS-SA002}{PRS-SA002} Bla bla bla
+\scenario{sc:safety.panicmode}{SC: If the safety subsystem fails to avoid humans or objects, the quadcopter automatically switches to panic mode, where motors are stopped and the latest position is made remotely available.}
+\requirement{req:PRS-SA001}{PRS-SA001} The quadcopter unit must have a panic-mode, where:
 \begin{itemize}
 \item engines are switched off.
 \item last known position of the device is made available remotely.
 \end{itemize}
-\labitem{req:safe.2}{Safety.2}: The user must be able to set the DragonFly in panic-mode through the controller.
-\labitem{req:safe.3}{Safety.3}: The device must avoid collisions.
-\labitem{req:safe.4}{Safety.4}: In case of a collision, the device must automatically switch to panic-mode.
-\end{enumerate}
-
 
 \subsection{Use case 4: Control Flight}
 
