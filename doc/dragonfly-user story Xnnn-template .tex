@@ -1,0 +1,90 @@
+\documentclass[a4paper]{article}
+
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{verbatim}   		% Useful for program listings
+\usepackage[T1]{fontenc}       	% For Swedish characters ÅÄÖ etc.
+\usepackage[utf8]{inputenc}
+% \usepackage[swedish]{babel} % For Swedish hyphenation
+\usepackage{fancyvrb}           	% For lists with tabulators
+\fvset{tabsize=4}              	 	% Tabulator size
+\fvset{fontsize=\small}         	% List font size
+\usepackage{graphicx}		% Imports the graphicx package, useful for images
+
+% generate clickable references & toc
+\usepackage[]{hyperref}
+\hypersetup{
+%    pdftitle={Your title here},
+%    pdfauthor={Your name here},
+%    pdfsubject={Your subject here},
+%    pdfkeywords={keyword1, keyword2},
+    bookmarksnumbered=true,
+    bookmarksopen=true,
+    bookmarksopenlevel=1,
+    colorlinks=true,
+    pdfstartview=Fit,
+    pdfpagemode=UseOutlines,    % this is the option you were lookin for
+    pdfpagelayout=TwoPageRight
+}
+
+
+\title{Dragonfly Project \\ User Story XXnnnn}
+\author{Eduardo Riffo}
+
+\date{December, 2015}         		% Today's date if not specified
+
+
+
+\begin{document}                	% Start of document
+
+\maketitle                      		% Prints the title defined above with \title, \author and \date
+
+\begin{center}
+\vspace{64pt}
+\includegraphics[scale=1.6]{images/AF_Logotype20141_Black.png}
+\vspace{16pt}
+\\ \large ÅF Embedded Systems
+\end{center}
+
+\newpage
+
+\tableofcontents				% Insert table of contents
+
+\newpage
+
+\section{Introduction}
+
+In an agile framework, user stories are the smallest units of work. The goal of a user story is to deliver a particular value back to the project.User stories are a few sentences in simple language that outline the desired outcome. They don't go into detailed requirements.
+
+\section{User story - Structure}
+	\subsection{User Story - ID}
+	Format is : XXnnnn
+	The first two characters indicates the subsystem and the rest numbering. This numbering is defined in the backlog document.
+	Example : CH9999
+	\subsection{Main objective}
+	As a <type of user>, I want <goal> so that I <receive benefit>.
+
+	\subsection{Type of user}
+	Type of user can be e.g Customer, project manager, Developer, tester, technical coordinator.
+	Type of user can also be a group.
+
+	\subsection{Goal}
+	Must be a measurable goal.
+
+	\subsection{receive benefit}
+	List the benefit if goal is achived.
+
+	\subsection{Example}
+	As a \textit{developer}, I want \textit{to implement a camera solution} so that I \textit{can monitor potential threats}.
+	
+\section{Additional information}
+
+	\subsection{Covered SRS items}
+    List all the SRS Requirements that is tied to this story, may be one or many.
+	\subsection{Affected documents}
+    List all the Implementation Design Specification and Test Case Descrition specifications.
+    These may be one or many-
+	\subsection{Checked PRS items}
+	List all PRS items that will be delivered by this user story.
+
+\end{document}                  % End of document
