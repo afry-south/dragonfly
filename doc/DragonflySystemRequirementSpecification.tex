@@ -1,0 +1,202 @@
+
+\documentclass[a4paper]{article}
+
+\usepackage{url}
+\usepackage{amsmath}
+\usepackage{verbatim}   		% Useful for program listings
+\usepackage[T1]{fontenc}       	% For Swedish characters ÅÄÖ etc.
+\usepackage[utf8]{inputenc}
+% \usepackage[swedish]{babel} % For Swedish hyphenation
+\usepackage{fancyvrb}           	% For lists with tabulators
+\fvset{tabsize=4}              	 	% Tabulator size
+\fvset{fontsize=\small}         	% List font size
+\usepackage{graphicx}		% Imports the graphicx package, useful for images
+
+% generate clickable references & toc
+\usepackage[]{hyperref}
+\hypersetup{
+%    pdftitle={Your title here},
+%    pdfauthor={Your name here},
+%    pdfsubject={Your subject here},
+%    pdfkeywords={keyword1, keyword2},
+    bookmarksnumbered=true,
+    bookmarksopen=true,
+    bookmarksopenlevel=1,
+    colorlinks=true,
+    pdfstartview=Fit,
+    pdfpagemode=UseOutlines,    % this is the option you were lookin for
+    pdfpagelayout=TwoPageRight
+}
+
+% define namedlabel as per http://texblog.org/2012/03/21/cross-referencing-list-items/
+% this is used for naming the requirements.
+\usepackage{enumitem, hyperref}
+\usepackage{nameref}
+
+% suggestion from http://tex.stackexchange.com/questions/1230/reference-name-of-description-list-item-in-latex
+\makeatletter
+\newcommand{\labitem}[2]{%
+\def\@itemlabel{\textbf{#2}}
+\item
+\def\@currentlabel{#2}\label{#1}}
+\makeatother
+
+% just a work-in-progress idea
+
+% usage: \usecase{cross-reference}{display-reference} text text ...
+\newcommand{\usecase}[2]{
+  \subsection*{#2}
+  \label{#1}
+  \addcontentsline{toc}{subsection}{\nameref{#1}}
+}
+
+
+% usage: \scenario{cross-reference}{display-reference} text text ...
+\newcommand{\scenario}[2]{
+  \subsubsection*{#2}
+  \label{#1}
+  \addcontentsline{toc}{subsubsection}{\nameref{#1}}
+}
+
+% usage: \requirement{cross-reference}{display-reference} text text ...
+\newcommand{\requirement}[2]{
+  \paragraph*{#2:}
+  \label{#1}
+  \addcontentsline{toc}{paragraph}{\nameref{#1}}
+}
+
+
+
+
+\title{Dragonfly Quadrotor UAV \\ Product Requirements Specification}
+\author{Daniel Stenberg \\ Nina Khayyami \\ Daniel Nilsson \\ Eduardo Riffo \\ Adam Steineck}
+
+\date{\today}
+%\date{December, 2015}         		% Today's date if not specified
+
+
+\begin{document}                	% Start of document
+
+\maketitle                      	% Prints the title defined above with \title, \author and \date
+
+\begin{center}
+\vspace{64pt}
+\includegraphics[scale=1.6]{images/AF_Logotype20141_Black.png}
+\vspace{16pt}
+\\ \large ÅF Technology
+\end{center}
+
+\newpage
+
+\tableofcontents				% Insert table of contents
+
+\newpage
+
+\section{Introduction}
+
+The \emph{Dragonfly} project is an internal competence enhancement project for ÅF Technology employees. The goal is to combine technology, competence and experience from various engineering fields in order to construct a highly advanced quadrotor UAV system. This document contains all product requirements tied to a scenarios belonging to a certain use case.
+
+\section{Use cases}
+
+
+\usecase{uc:navigate}{UC:Navigate}
+\scenario{sc:cxn.sunny}{SC:Nav-Sunny} GPS and map data available.
+\requirement{req:nav.sunny.1}{Nav.Sunny.1} Navigate to a destination.
+\requirement{req:nav.sunny.2}{Nav.Sunny.2} Navigate to start position. The start position is position of lift-off.
+
+\scenario{sc:cxn.rainy}{SC:Nav-Rainy} GPS not available.
+\requirement{req:nav.rainy.1}{Nav.Rainy.1} User shall be notified that navigation is unavailable with cause.
+
+\usecase{uc:cxn}{UC:Connection}
+
+\scenario{sc:cxn-ok}{SC:Cxn-Sunny}
+\requirement{req:cxn.sunny.wifi}{Cxn.Sunny.1}: The device should have a functional WiFi connection.
+\requirement{req:can.sunny.wless}{Cxn.Sunny.2}: The device should have a functional wireless connection.
+
+\usecase{uc:cxn}{UC:Safety}
+
+\section{Sub-system: Charging}
+
+\scenario{sc:Quadcopter unit initiated initiated  charging}{SC:Quadcopter unit initiated charging}
+\requirement{req:PRS-CH001}{PRS-CH001}: The Quadcopter unit must have receiver coil attached to receiver cuircuit and a balanced server charger.
+\requirement{req:PRS-CH002}{PRS-CH002}: The Quadcopter receiver and transmitter must be placed within a fixed distance.
+\requirement{req:PRS-CH003}{PRS-CH003}: The Quadcopter unit must implement a software based capacity monitor.
+\requirement{req:PRS-CH004}{PRS-CH004}: The charging base must consist of a main power supply, transmitter circuit and transmitter coil.
+\requirement{req:PRS-CH005}{PRS-CH005}: Charging base must enable power supply manually User interaction is mandatory for this process, since it involves tweaking the voltage.
+\scenario{sc:Quadcopter user initiated charging}{SC:Quadcopter user initiated charging}
+\requirement{req:PRS-CH006}{PRS-CH006}: Enable balanced server charger manually.
+\requirement{req:PRS-CH007}{PRS-CH007}: Investigate if Ichanger used in project can be controlled automatically  through software.
+\requirement{req:PRS-CH008}{PRS-CH008}: Motion sensors needs to be enabled to guaranty effective charging.
+\requirement{req:PRS-CH009}{PRS-CH009}: Mechanism to turn the power supply off should be implement if possible. Monitoring of charging process must be done to avoid overheating and unnecessary  power consumption.
+\requirement{req:PRS-CH010}{PRS-CH010}: Charging notifications must be implemented and sent to users or quadcopter unit.
+\scenario{sc:Suggest alternative charging base}{SC:Suggest alternative charging base}
+\requirement{req:PRS-CH011}{PRS-CH011}: Suggest the nearest charging base to user, but let the user make decision.
+\scenario{sc:Redirect to alternative charging base}{SC:Redirect to alternative charging base}
+\requirement{req:PRS-CH012}{PRS-CH012}: Automatic charging redirection to charging base must be supported by Quadcopter unit.
+\requirement{req:PRS-CH013}{PRS-CH013}: Charging base should be covered by plastic glass with a predetermined thickness.
+
+
+
+\subsection{Use case 3: Safety}
+
+\begin{enumerate}
+\labitem{req:safe.1}{Safety.1}: The device must have a panic-mode, where:
+\begin{itemize}
+\item engines are switched off.
+\item last known position of the device is made available remotely.
+\end{itemize}
+\labitem{req:safe.2}{Safety.2}: The user must be able to set the DragonFly in panic-mode through the controller.
+\labitem{req:safe.3}{Safety.3}: The device must avoid collisions.
+\labitem{req:safe.4}{Safety.4}: In case of a collision, the device must automatically switch to panic-mode.
+\end{enumerate}
+
+
+\subsection{Use case 4: Control Flight}
+
+\begin{enumerate}
+\labitem{req:cf.1}{Control Flight.1}: The user must be able to control the Dragonfly manually through a RC transmitter.
+\labitem{req:cf.2}{Control Flight.2}: The user must be able to control the Dragonfly manually through a mobile app.
+\labitem{req:cf.3}{Control Flight.3}: The user must be able to switch between controlling through mobile app or RC and vice verse while flying.
+\labitem{req:cf.4}{Control Flight.4}: The manual control through the RC must have the highest priority (over mobile app and navigation control).
+\labitem{req:cf.5}{Control Flight.5}: The Dragonfly must have a self stabilizing control algorithm.
+\labitem{req:cf.6}{Control Flight.6}: The user must be able to control the Dragonfly flying:
+\begin{itemize}
+\item Forwards.
+\item Backwards.
+\item Left.
+\item Right.
+\item Rotate.
+\item Up.
+\item Down.
+\end{itemize}
+\labitem{req:cf.7}{Control Flight.7}: When the user releases the control the Dragonfly must return to a stand still position.
+\labitem{req:cf.8}{Control Flight.8}: The Dragonfly must be able to land on its own.
+\labitem{req:cf.9}{Control Flight.9}: The Dragonfly must be able to fly in winds up to 10 m/s.
+\end{enumerate}
+
+
+\section{Example}
+\subsection{It's still possible to use the vanilla sections}
+And they will appear like use cases etc in the table of contents.
+\usecase{uc:cross-reference}{UC:display-reference} Use case text. Use case text.Use case text.Use case text.Use case text.
+\scenario{sc:cross-reference}{SC:display-reference} Scenario text. Scenario text. Scenario text. Scenario text. Scenario text. Scenario text.
+\requirement{req:cross-reference}{REQ:display-reference} Requirement text. Requirement text. Requirement text. Requirement text. Requirement text. Requirement text.
+
+
+\section{Example: Referring to requirements}
+\subsection{Referring to reqs by itemlabel}
+Use \verb!\ref!to refer to the \verb!\labitem! requirements. Let's consider requirement \ref{req:cf.5} and \ref{req:cf.6}.
+
+\subsection{Referring to newcommand uc, scenario and requirements.}
+It is preferred to use the \verb!\nameref! to refer to the use cases, scenarios and requirements.
+Thus, we look at use case \nameref{uc:navigate} scenario \nameref{sc:cxn.sunny} and requirements \nameref{req:cxn.sunny.wifi}.
+
+\subsection{Sandbox of referring to newcommands}
+\nameref{uc:cross-reference}, scenario \nameref{sc:cross-reference} and reqirement \nameref{req:cross-reference}.
+
+
+\begin{thebibliography}{99}
+\bibitem{stenberg} Model-based Design Development and Control of a Wind Resistant Multirotor UAV, C. Månsson, D. Stenberg, Lunds Tekniska Högskola 2014
+\end{thebibliography}
+
+\end{document}                  % End of document
