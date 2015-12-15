@@ -68,8 +68,8 @@
 
 
 
-\title{Dragonfly Quadrotor UAV \\ Product Requirements Specification}
-\author{Daniel Stenberg \\ Nina Khayyami \\ Daniel Nilsson \\ Eduardo Riffo \\ Adam Steineck}
+\title{Dragonfly Quadrotor UAV \\ System Requirements Specification}
+\author{Eduardo Riffo \\ Abed Shoka}
 
 \date{\today}
 %\date{December, 2015}         		% Today's date if not specified
@@ -86,6 +86,27 @@
 \\ \large ÅF Technology
 \end{center}
 
+\vspace{16pt}
+\begin{tabular}{ l l l p{8.5cm} }
+	Ver. & Date & Name & Description and Reason for change \\\hline
+	0.1 Draft & December 14, 2015 & Eduardo & Created document structure.\\
+\end{tabular}
+
+\begin{table}[]
+\centering
+\caption{Document approval}
+\begin{tabular}{c c c c}
+\hline\hline
+Signature & Name & Title & Date \\ [0.5ex]
+\hline
+	& & & \\
+	& & & \\
+	& & & \\
+\hline
+\end{tabular}
+\label{table:nonline}	
+\end{table}
+
 \newpage
 
 \tableofcontents				% Insert table of contents
@@ -94,32 +115,98 @@
 
 \section{Introduction}
 
-The \emph{Dragonfly} project is an internal competence enhancement project for ÅF Technology employees. The goal is to combine technology, competence and experience from various engineering fields in order to construct a highly advanced quadrotor UAV system. This document contains all product requirements tied to a scenarios belonging to a certain use case.
+The System Requirement Specification (SRS) document is a technical description of the functional and non-functional requirements needed for the DragonFly project. A system design picture contatinening the Dragonfly system and all its subsystem is described below. This document should contain all of the information needed by a software engineer to adequately design and implement the software product described by the requirements listed in this document. 
 
-\section{Use cases}
+\begin{figure}[!h]
+	\centering
+	\includegraphics[width=\textwidth]{images/SystemArchitectureDiagram_DF.png}
+	\caption{SystemArchitectureDiagram}
+	\label{fig:sysarchdiag}
+\end{figure}
+
+\subsection{Purpose}
+
+The purpose of this SRS in to list all the system requirements and how they map to PRS requirements and use cases. The intended audience is of this document are all involved in the dragonfly project.
+
+\subsection{Scope}
+
+The subsystems that are part of the dragonfly system is:
+\begin{itemize}
+	\item Charger subsystem. Which is responsible for controlling charge level and
+	charging the Dragonfly UAV Quadcopter. It will also suggest or redirect to an available charging base. By doing so it enables optimized usage of the dragonfly from a charging point of view.
+	\item subsystem X.
+	\item Subsystem Y.
+\end{itemize}
+
+\subsection{Definition, Acronyms and Abbreviations}
+
+The SRS contains the following definitions of terms, acronyms, and abbreviations required to properly interpret the SRS.
+\begin{itemize}
+	\item SRS - System Requirement Specification.
+	\item PRS - Product Requirement Specification. 
+	\item UC  - Use case definition.
+	\item SoC - State of compliance.
+	\item SoV - State of verification.
+	\item SoI - State of implementation.
+\end{itemize}
+
+\subsection{References}
+
+\begin{thebibliography}{99}
+	\bibitem{Dragonfly-PRS} Dragonfly Product Requirement Specification, 2015
+	\bibitem{Dragonfly-UC} Dragonfly Use Case Description, 2015
+\end{thebibliography}
+
+\subsection{Overview}
+
+\section{General Description}
+
+The SRS describes the general factors that affect the dragonfly project and its requirements on the different subsystem. It should be made clear that this section does not state specific requirements; it only makes those requirements easier to understand.
+
+\subsection{Product Perspective}
+
+This subsection of the SRS puts the dragonfly product into perspective with other related products requirements or projects goals. 
+
+\subsection{Product Functions}
+
+The summary of the product requirements are listed in \cite{Dragonfly-PRS}. 
 
 
-\usecase{uc:navigate}{UC:Navigate}
-\scenario{sc:cxn.sunny}{SC:Nav-Sunny} GPS and map data available.
-\requirement{req:nav.sunny.1}{Nav.Sunny.1} Navigate to a destination.
-\requirement{req:nav.sunny.2}{Nav.Sunny.2} Navigate to start position. The start position is position of lift-off.
+\subsection{General Constraints}
 
-\scenario{sc:cxn.rainy}{SC:Nav-Rainy} GPS not available.
-\requirement{req:nav.rainy.1}{Nav.Rainy.1} User shall be notified that navigation is unavailable with cause.
+This SRS only describes the the dragonfly and charger base as product entity, all other components that are a consired a part of the either the dragonfly or the charger base.
+From a software point of view all sub-system are considered to be a part  dragonfly system.
 
-\usecase{uc:cxn}{UC:Connection}
+\subsection{Assumptions and Dependencies}
 
-\scenario{sc:cxn-ok}{SC:Cxn-Sunny}
-\requirement{req:cxn.sunny.wifi}{Cxn.Sunny.1}: The device should have a functional WiFi connection.
-\requirement{req:can.sunny.wless}{Cxn.Sunny.2}: The device should have a functional wireless connection.
+This part of the SRS list each of the factors that affect the requirements stated in the SRS. These factors are not design constraints on the software but are, rather, any changes to them that can affect the requirements in the SRS. 
+It is assumed that the fligth control board (FCB) runs a freeRTOS and has an interface to the flight managament system (FMS) that will run on a debian armhfs. All the different components hardware componenets should interface either the FMS or the FCB.
 
-\usecase{uc:cxn}{UC:Safety}
+\section{Specific Requirements}
 
-\section{Sub-system: Charging}
+This section is the largest and most important section of the SRS.
 
-\scenario{sc:Quadcopter unit initiated initiated  charging}{SC:Quadcopter unit initiated charging}
-\requirement{req:PRS-CH001}{PRS-CH001}: The Quadcopter unit must have receiver coil attached to receiver cuircuit and a balanced server charger.
+Each requirement in this section should be:
+•	Correct
+•	Traceable (both forward and backward to prior/future artifacts)
+•	Unambiguous
+•	Verifiable (i.e., testable)
+•	Prioritized (with respect to importance and/or stability)
+•	Complete
+•	Consistent
+•	Uniquely identifiable (usually via numbering like 3.4.5.6)
+
+Note that this SRS is not the software design document, therefore one should avoid the tendency to over-constrain (and therefore design) the software project within this SRS.
+
+\subsection{External Interface Requirements}
 \requirement{req:PRS-CH002}{PRS-CH002}: The Quadcopter receiver and transmitter must be placed within a fixed distance.
+\subsubsection{User Interfaces}
+\subsubsection{Hardware Interfaces}
+\subsubsection{Software Interfaces}
+\subsubsection{Communications Interfaces}
+
+\subsection{Functional Requirements}
+\requirement{req:SRS-CH001}{SRS-CH001}: The Quadcopter unit must have receiver coil attached to receiver cuircuit and a balanced server charger. Complies with {SRS-CH001}.
 \requirement{req:PRS-CH003}{PRS-CH003}: The Quadcopter unit must implement a software based capacity monitor.
 \requirement{req:PRS-CH004}{PRS-CH004}: The charging base must consist of a main power supply, transmitter circuit and transmitter coil.
 \requirement{req:PRS-CH005}{PRS-CH005}: Charging base must enable power supply manually User interaction is mandatory for this process, since it involves tweaking the voltage.
@@ -129,70 +216,58 @@ The \emph{Dragonfly} project is an internal competence enhancement project for �
 \requirement{req:PRS-CH008}{PRS-CH008}: Motion sensors needs to be enabled to guaranty effective charging.
 \requirement{req:PRS-CH009}{PRS-CH009}: Mechanism to turn the power supply off should be implement if possible. Monitoring of charging process must be done to avoid overheating and unnecessary  power consumption.
 \requirement{req:PRS-CH010}{PRS-CH010}: Charging notifications must be implemented and sent to users or quadcopter unit.
-\scenario{sc:Suggest alternative charging base}{SC:Suggest alternative charging base}
 \requirement{req:PRS-CH011}{PRS-CH011}: Suggest the nearest charging base to user, but let the user make decision.
-\scenario{sc:Redirect to alternative charging base}{SC:Redirect to alternative charging base}
 \requirement{req:PRS-CH012}{PRS-CH012}: Automatic charging redirection to charging base must be supported by Quadcopter unit.
 \requirement{req:PRS-CH013}{PRS-CH013}: Charging base should be covered by plastic glass with a predetermined thickness.
 
+\subsubsection{Functional Requirement or Feature nnnn}
+\paragraph{Introductions}
+\paragraph{Inputs}
+\paragraph{Processing}
+\paragraph{Outputs}
+\paragraph{Error Handling}
 
+\subsection{Use Cases}
+All use cases used by the different subsections or use case referralls are listed in \cite{Dragonfly-UC}. 
 
-\subsection{Use case 3: Safety}
+\subsection{Classes / Objects}
+\subsubsection{Class / Object  nnnn}
+\paragraph{Attributes}
+\paragraph{Functions}
 
-\begin{enumerate}
-\labitem{req:safe.1}{Safety.1}: The device must have a panic-mode, where:
-\begin{itemize}
-\item engines are switched off.
-\item last known position of the device is made available remotely.
-\end{itemize}
-\labitem{req:safe.2}{Safety.2}: The user must be able to set the DragonFly in panic-mode through the controller.
-\labitem{req:safe.3}{Safety.3}: The device must avoid collisions.
-\labitem{req:safe.4}{Safety.4}: In case of a collision, the device must automatically switch to panic-mode.
-\end{enumerate}
+\subsection{Non-Functional Requirements}
+Non-functional requirements may exist for the following attributes.  Often these requirements must be achieved at a system-wide level rather than at a unit level.  State the requirements in the following sections in measurable terms (e.g., 95% of transaction shall be processed in less than a second, system downtime may not exceed 1 minute per day, > 30 day MTBF value, etc). 
+\subsubsection{Performance}
+\paragraph{Reliability}
+\paragraph{Availability}
+\paragraph{Security}
+\paragraph{Maintainability}
+\paragraph{Portability}
 
+\subsection{Design Constraints}
+There might be a couple of constriants that is dependant on standards, company policies, hardware limitation, etc. that will impact this software project.
 
-\subsection{Use case 4: Control Flight}
+\subsection{Other Requirements}
+Catchall section for any additional requirements.
 
-\begin{enumerate}
-\labitem{req:cf.1}{Control Flight.1}: The user must be able to control the Dragonfly manually through a RC transmitter.
-\labitem{req:cf.2}{Control Flight.2}: The user must be able to control the Dragonfly manually through a mobile app.
-\labitem{req:cf.3}{Control Flight.3}: The user must be able to switch between controlling through mobile app or RC and vice verse while flying.
-\labitem{req:cf.4}{Control Flight.4}: The manual control through the RC must have the highest priority (over mobile app and navigation control).
-\labitem{req:cf.5}{Control Flight.5}: The Dragonfly must have a self stabilizing control algorithm.
-\labitem{req:cf.6}{Control Flight.6}: The user must be able to control the Dragonfly flying:
-\begin{itemize}
-\item Forwards.
-\item Backwards.
-\item Left.
-\item Right.
-\item Rotate.
-\item Up.
-\item Down.
-\end{itemize}
-\labitem{req:cf.7}{Control Flight.7}: When the user releases the control the Dragonfly must return to a stand still position.
-\labitem{req:cf.8}{Control Flight.8}: The Dragonfly must be able to land on its own.
-\labitem{req:cf.9}{Control Flight.9}: The Dragonfly must be able to fly in winds up to 10 m/s.
-\end{enumerate}
+\subsection{Inverse Requirements}
 
+\section{Analysis Models}
+List all analysis models used in developing specific requirements previously given in this SRS.  Each model should include an introduction and a narrative description.  Furthermore, each model should be traceable the SRS’s requirements.
 
-\section{Example}
-\subsection{It's still possible to use the vanilla sections}
-And they will appear like use cases etc in the table of contents.
-\usecase{uc:cross-reference}{UC:display-reference} Use case text. Use case text.Use case text.Use case text.Use case text.
-\scenario{sc:cross-reference}{SC:display-reference} Scenario text. Scenario text. Scenario text. Scenario text. Scenario text. Scenario text.
-\requirement{req:cross-reference}{REQ:display-reference} Requirement text. Requirement text. Requirement text. Requirement text. Requirement text. Requirement text.
+\subsection{Sequence Diagrams}
+\subsection{Data Flow Diagrams - DFD}
+\subsection{State-Transition Diagrams - STD}
 
+\section{Change Management Process}
+List all analysis models used in developing specific requirements previously given in this SRS.  Each model should include an introduction and a narrative description.  Furthermore, each model should be traceable the SRS’s requirements.
 
-\section{Example: Referring to requirements}
-\subsection{Referring to reqs by itemlabel}
-Use \verb!\ref!to refer to the \verb!\labitem! requirements. Let's consider requirement \ref{req:cf.5} and \ref{req:cf.6}.
+%\begin{appendices}
+%\chapter{Appendices}
+%Appendices may be used to provide additional (and hopefully helpful) information.  If present, %the SRS should explicitly state whether the information contained within an appendix is to be %considered as a part of the SRS’s overall set of requirements.
+%Example Appendices could include (initial) conceptual documents for the software project, %marketing materials, minutes of meetings with the customer(s), etc.	
+%\end{appendices}
 
-\subsection{Referring to newcommand uc, scenario and requirements.}
-It is preferred to use the \verb!\nameref! to refer to the use cases, scenarios and requirements.
-Thus, we look at use case \nameref{uc:navigate} scenario \nameref{sc:cxn.sunny} and requirements \nameref{req:cxn.sunny.wifi}.
-
-\subsection{Sandbox of referring to newcommands}
-\nameref{uc:cross-reference}, scenario \nameref{sc:cross-reference} and reqirement \nameref{req:cross-reference}.
 
 
 \begin{thebibliography}{99}
