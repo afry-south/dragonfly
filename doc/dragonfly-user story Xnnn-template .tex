@@ -2,14 +2,16 @@
 
 \usepackage{url}
 \usepackage{amsmath}
-\usepackage{verbatim}   		% Useful for program listings
-\usepackage[T1]{fontenc}       	% For Swedish characters ÅÄÖ etc.
+\usepackage{verbatim}   	   	    % Useful for program listings
+\usepackage[T1]{fontenc}       	    % For Swedish characters ÅÄÖ etc.
 \usepackage[utf8]{inputenc}
-% \usepackage[swedish]{babel} % For Swedish hyphenation
+% \usepackage[swedish]{babel}       % For Swedish hyphenation
 \usepackage{fancyvrb}           	% For lists with tabulators
+\usepackage{titlesec}               % Define for title sections
 \fvset{tabsize=4}              	 	% Tabulator size
 \fvset{fontsize=\small}         	% List font size
-\usepackage{graphicx}		% Imports the graphicx package, useful for images
+\usepackage{graphicx}		        % Imports the graphicx package, useful for images
+\usepackage[parfill]{parskip}
 
 % generate clickable references & toc
 \usepackage[]{hyperref}
@@ -26,6 +28,8 @@
     pdfpagemode=UseOutlines,    % this is the option you were lookin for
     pdfpagelayout=TwoPageRight
 }
+
+\setcounter{secnumdepth}{5}
 
 
 \title{Dragonfly Project \\ User Story XXnnnn}
@@ -64,6 +68,9 @@ In an agile framework, user stories are the smallest units of work. The goal of 
 	\subsection{Main objective}
 	As a <type of user>, I want <goal> so that I <receive benefit>.
 
+	Example:
+	As a \textit{developer}, I want \textit{to implement a camera solution} so that I \textit{can monitor potential threats}.
+
 	\subsection{Type of user}
 	Type of user can be e.g Customer, project manager, Developer, tester, technical coordinator.
 	Type of user can also be a group.
@@ -74,16 +81,41 @@ In an agile framework, user stories are the smallest units of work. The goal of 
 	\subsection{receive benefit}
 	List the benefit if goal is achived.
 
-	\subsection{Example}
-	As a \textit{developer}, I want \textit{to implement a camera solution} so that I \textit{can monitor potential threats}.
+		
+	\subsection{Software analysis and design}
+	Describe the analysis outcome to describe the solution both from an analysis and design point of view.
+	 
+	\subsubsection{Analysis Models}
+	List the analysis models used to meet the funtional requirements are coverered by this user story.  
+		
+	\paragraph{Sequence Diagrams}\mbox{} \\
+	List all sequence diagrams needed for this user story
+
+	\paragraph{Data Flow Diagrams - DFD}\mbox{} \\
+	List all flow diagrams needed for this user story
+
+	\paragraph{State-Transition Diagrams - STD}\mbox{} \\
+	List all flow diagrams needed for this user story
+	
+	\subsubsection{Classes / Objects}
+	List the classes and object that need to be created to be able to meet the goal.
+	 
+	\paragraph{Functions}\mbox{} \\
+    List all new and/or modified functions for this user story.
+    
+	\paragraph{Attributes}\mbox{} \\
+	List all new and/or modified attributes for this user story.
+
 	
 \section{Additional information}
 
 	\subsection{Covered SRS items}
     List all the SRS Requirements that is tied to this story, may be one or many.
+	
 	\subsection{Affected documents}
     List all the Implementation Design Specification and Test Case Descrition specifications.
     These may be one or many-
+	
 	\subsection{Checked PRS items}
 	List all PRS items that will be delivered by this user story.
 
