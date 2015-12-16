@@ -115,7 +115,7 @@ Signature & Name & Title & Date \\ [0.5ex]
 
 \section{Introduction}
 
-The System Requirement Specification (SRS) document is a technical description of the functional and non-functional requirements needed for the DragonFly project. A system design picture contatinening the Dragonfly system and all its subsystem is described below. This document should contain all of the information needed by a software engineer to adequately design and implement the software product described by the requirements listed in this document. 
+The System Requirement Specification (SRS) document is a technical description of the functional and non-functional requirements needed for the Dragonfly project. A system design picture containing the Dragonfly system and all its subsystem is described below. This document should contain all of the information needed by a software engineer to adequately design and implement the software product described by the requirements listed in this document. 
 
 \begin{figure}[!h]
 	\centering
@@ -126,14 +126,14 @@ The System Requirement Specification (SRS) document is a technical description o
 
 \subsection{Purpose}
 
-The purpose of this SRS in to list all the system requirements and how they map to PRS requirements and use cases. The intended audience is of this document are all involved in the dragonfly project.
+The purpose of this SRS is to list all the system requirements and how they map to PRS requirements and use cases. The intended audience is of this document are all involved in the dragonfly project.
 
 \subsection{Scope}
 
 The subsystems that are part of the dragonfly system is:
 \begin{itemize}
-	\item Charger subsystem. Which is responsible for controlling charge level and
-	charging the Dragonfly UAV Quadcopter. It will also suggest or redirect to an available charging base. By doing so it enables optimized usage of the dragonfly from a charging point of view.
+	\item Charger subsystem. Which is responsible for controlling charge level and charging the Dragonfly UAV Quadcopter unit. It will also suggest or redirect to an available charging base. 
+	By doing so it enables optimized usage of the dragonfly from a charging point of view.
 	\item subsystem X.
 	\item Subsystem Y.
 \end{itemize}
@@ -145,9 +145,6 @@ The SRS contains the following definitions of terms, acronyms, and abbreviations
 	\item SRS - System Requirement Specification.
 	\item PRS - Product Requirement Specification. 
 	\item UC  - Use case definition.
-	\item SoC - State of compliance.
-	\item SoV - State of verification.
-	\item SoI - State of implementation.
 \end{itemize}
 
 \subsection{References}
@@ -174,13 +171,13 @@ The summary of the product requirements are listed in \cite{Dragonfly-PRS}.
 
 \subsection{General Constraints}
 
-This SRS only describes the the dragonfly and charger base as product entity, all other components that are a consired a part of the either the dragonfly or the charger base.
-From a software point of view all sub-system are considered to be a part  dragonfly system.
+This SRS only describes the dragonfly and charger base as product entity, all other components that are a considered  a part of the either the dragonfly or the charger base.
+From a software point of view all sub-system are considered to be a part of the dragonfly system.
 
 \subsection{Assumptions and Dependencies}
 
 This part of the SRS list each of the factors that affect the requirements stated in the SRS. These factors are not design constraints on the software but are, rather, any changes to them that can affect the requirements in the SRS. 
-It is assumed that the fligth control board (FCB) runs a freeRTOS and has an interface to the flight managament system (FMS) that will run on a debian armhfs. All the different components hardware componenets should interface either the FMS or the FCB.
+It is assumed that the flight control board (FCB) runs a freeRTOS and has an interface to the flight management system (FMS) that will run on a Linux debian armhfs distribution. All the different hardware components should interface either the FMS or the FCB and be controlled by its corresponding subsystem.
 
 \section{Specific Requirements}
 
@@ -196,82 +193,132 @@ Each requirement in this section should be:
 •	Consistent
 •	Uniquely identifiable (usually via numbering like 3.4.5.6)
 
-Note that this SRS is not the software design document, therefore one should avoid the tendency to over-constrain (and therefore design) the software project within this SRS.
+Note that this SRS is not a software design document, therefore one should avoid the tendency to over-constrain and design the software project within this SRS.
 
 \subsection{External Interface Requirements}
 \requirement{req:PRS-CH002}{PRS-CH002}: The Quadcopter receiver and transmitter must be placed within a fixed distance.
+\requirement{req:PRS-CH013}{PRS-CH013}: Charging base should be covered by plastic glass with a predetermined thickness.
+
+\subsubsection{User Interfaces}
+\subsubsection{Hardware Interfaces}
+\subsubsection{Software Interfaces}
+\subsubsection{Communications Interfaces}
+
+\subsection{External Interface Requirements}
+\requirement{req:PRS-CH005}{PRS-CH005}: Charging base must enable power supply manually User interaction is mandatory for this process, since it involves tweaking the voltage.
+\subsubsection{User Interfaces}
+\subsubsection{Hardware Interfaces}
+\subsubsection{Software Interfaces}
+\subsubsection{Communications Interfaces}
+
+\subsection{External Interface Requirements}
+\requirement{req:PRS-CH006}{PRS-CH006}: Enable balanced server charger manually.
 \subsubsection{User Interfaces}
 \subsubsection{Hardware Interfaces}
 \subsubsection{Software Interfaces}
 \subsubsection{Communications Interfaces}
 
 \subsection{Functional Requirements}
-\requirement{req:SRS-CH001}{SRS-CH001}: The Quadcopter unit must have receiver coil attached to receiver cuircuit and a balanced server charger. Complies with {SRS-CH001}.
-\requirement{req:PRS-CH003}{PRS-CH003}: The Quadcopter unit must implement a software based capacity monitor.
-\requirement{req:PRS-CH004}{PRS-CH004}: The charging base must consist of a main power supply, transmitter circuit and transmitter coil.
-\requirement{req:PRS-CH005}{PRS-CH005}: Charging base must enable power supply manually User interaction is mandatory for this process, since it involves tweaking the voltage.
-\scenario{sc:Quadcopter user initiated charging}{SC:Quadcopter user initiated charging}
-\requirement{req:PRS-CH006}{PRS-CH006}: Enable balanced server charger manually.
-\requirement{req:PRS-CH007}{PRS-CH007}: Investigate if Ichanger used in project can be controlled automatically  through software.
-\requirement{req:PRS-CH008}{PRS-CH008}: Motion sensors needs to be enabled to guaranty effective charging.
-\requirement{req:PRS-CH009}{PRS-CH009}: Mechanism to turn the power supply off should be implement if possible. Monitoring of charging process must be done to avoid overheating and unnecessary  power consumption.
-\requirement{req:PRS-CH010}{PRS-CH010}: Charging notifications must be implemented and sent to users or quadcopter unit.
-\requirement{req:PRS-CH011}{PRS-CH011}: Suggest the nearest charging base to user, but let the user make decision.
-\requirement{req:PRS-CH012}{PRS-CH012}: Automatic charging redirection to charging base must be supported by Quadcopter unit.
-\requirement{req:PRS-CH013}{PRS-CH013}: Charging base should be covered by plastic glass with a predetermined thickness.
 
-\subsubsection{Functional Requirement or Feature nnnn}
+\subsubsection{Functional Requirement SRS-CH001}
+\requirement{req:SRS-CH001}{SRS-CH001}: The Quadcopter unit must have receiver coil attached to receiver cuircuit and a balanced server charger. Complies with {SRS-CH001}.
 \paragraph{Introductions}
 \paragraph{Inputs}
 \paragraph{Processing}
 \paragraph{Outputs}
 \paragraph{Error Handling}
 
+\subsubsection{Functional Requirement SRS-CH001}
+\requirement{req:PRS-CH003}{PRS-CH003}: The Quadcopter unit must implement a software based capacity monitor.
+\paragraph{Introductions}
+\paragraph{Inputs}
+\paragraph{Processing}
+\paragraph{Outputs}
+\paragraph{Error Handling}
+
+\subsubsection{Functional Requirement SRS-CH001}
+\requirement{req:PRS-CH003}{PRS-CH003}: The Quadcopter unit must implement a software based capacity monitor.
+\paragraph{Introductions}
+\paragraph{Inputs}
+\paragraph{Processing}
+\paragraph{Outputs}
+\paragraph{Error Handling}
+
+\subsubsection{Functional Requirement SRS-CH001}
+\requirement{req:PRS-CH007}{PRS-CH007}: Investigate if Inductive changer used in project can be controlled automatically  through software.
+\paragraph{Introductions}
+\paragraph{Inputs}
+\paragraph{Processing}
+\paragraph{Outputs}
+\paragraph{Error Handling}
+
+\subsubsection{Functional Requirement SRS-CH001}
+\requirement{req:PRS-CH008}{PRS-CH008}: Motion sensors needs to be enabled to guaranty effective charging.
+\paragraph{Introductions}
+\paragraph{Inputs}
+\paragraph{Processing}
+\paragraph{Outputs}
+\paragraph{Error Handling}
+
+\subsubsection{Functional Requirement SRS-CH001}
+\requirement{req:PRS-CH009}{PRS-CH009}: Mechanism to turn the power supply off should be implement if possible. Monitoring of charging process must be done to avoid overheating and unnecessary  power consumption.
+\paragraph{Introductions}
+\paragraph{Inputs}
+\paragraph{Processing}
+\paragraph{Outputs}
+\paragraph{Error Handling}
+
+\subsubsection{Functional Requirement SRS-CH001}
+\requirement{req:PRS-CH010}{PRS-CH010}: Charging notifications must be implemented and sent to users or quadcopter unit.
+\paragraph{Introductions}
+\paragraph{Inputs}
+\paragraph{Processing}
+\paragraph{Outputs}
+\paragraph{Error Handling}
+
+\subsubsection{Functional Requirement SRS-CH001}
+\requirement{req:PRS-CH011}{PRS-CH011}: Suggest the nearest charging base to user, but let the user make decision.
+\paragraph{Introductions}
+\paragraph{Inputs}
+\paragraph{Processing}
+\paragraph{Outputs}
+\paragraph{Error Handling}
+
+\subsubsection{Functional Requirement SRS-CH001}
+\requirement{req:PRS-CH012}{PRS-CH012}: Automatic charging redirection to charging base must be supported by Quadcopter unit.
+\paragraph{Introductions}
+\paragraph{Inputs}
+\paragraph{Processing}
+\paragraph{Outputs}
+\paragraph{Error Handling}
+
+
+
 \subsection{Use Cases}
-All use cases used by the different subsections or use case referralls are listed in \cite{Dragonfly-UC}. 
+All use cases used by the different subsections or use case referrals are listed in \cite{Dragonfly-UC}. 
 
 \subsection{Classes / Objects}
-\subsubsection{Class / Object  nnnn}
-\paragraph{Attributes}
-\paragraph{Functions}
+All classes, objects, functions and attributes for addressing functional requirements are to be solved by their corresponding user story. See corresponding user story description in the project.
 
 \subsection{Non-Functional Requirements}
-Non-functional requirements may exist for the following attributes.  Often these requirements must be achieved at a system-wide level rather than at a unit level.  State the requirements in the following sections in measurable terms (e.g., 95% of transaction shall be processed in less than a second, system downtime may not exceed 1 minute per day, > 30 day MTBF value, etc). 
+Non-functional requirements for the dragonfly system will be listed in this sub chapter.
+
 \subsubsection{Performance}
+The dragonfly performance must be robust and FMS system be thread-safe, meaning if a thread hangs it must be possible to restart it without affecting the whole dragonfly system. 
 \paragraph{Reliability}
-\paragraph{Availability}
+Navigation and orientation must be reliable constantly, if a sensor needed for navigation is malfunctioning or is broken, the Dragonfly quadcopter unit must land in a controlled manner. 
 \paragraph{Security}
+Due to the size and weight of the Dragonfly quadcopter unit, it is crucial that the flight management has a recovery mode if something happens to main dragonfly system. If the FMS is unresponsive it is up the FCB to perform a smooth and controlled landing, ensuring that neither the quad copter unit nor other object can be harmed or destroyed.  
 \paragraph{Maintainability}
-\paragraph{Portability}
+The system software of the Dragonfly quadcopter unit may only be updated and/or upgraded during development and stabilization phase of the project. After executing the corresponding user story and meeting definition of "Done", upgrade and update should not be performed. 
 
 \subsection{Design Constraints}
-There might be a couple of constriants that is dependant on standards, company policies, hardware limitation, etc. that will impact this software project.
+There Dragonfly has hardware constraints, due to weight limitation and charging capacity. All components that needs to be added, has to be evaluated with these constraints.
 
 \subsection{Other Requirements}
-Catchall section for any additional requirements.
-
-\subsection{Inverse Requirements}
+Other requirements that are not covered by the Dragonfly System Design are NOT covered by this SRS.
 
 \section{Analysis Models}
-List all analysis models used in developing specific requirements previously given in this SRS.  Each model should include an introduction and a narrative description.  Furthermore, each model should be traceable the SRS’s requirements.
-
-\subsection{Sequence Diagrams}
-\subsection{Data Flow Diagrams - DFD}
-\subsection{State-Transition Diagrams - STD}
-
-\section{Change Management Process}
-List all analysis models used in developing specific requirements previously given in this SRS.  Each model should include an introduction and a narrative description.  Furthermore, each model should be traceable the SRS’s requirements.
-
-%\begin{appendices}
-%\chapter{Appendices}
-%Appendices may be used to provide additional (and hopefully helpful) information.  If present, %the SRS should explicitly state whether the information contained within an appendix is to be %considered as a part of the SRS’s overall set of requirements.
-%Example Appendices could include (initial) conceptual documents for the software project, %marketing materials, minutes of meetings with the customer(s), etc.	
-%\end{appendices}
-
-
-
-\begin{thebibliography}{99}
-\bibitem{stenberg} Model-based Design Development and Control of a Wind Resistant Multirotor UAV, C. Månsson, D. Stenberg, Lunds Tekniska Högskola 2014
-\end{thebibliography}
+All analysis models used in developing specific functional requirements are covered by its corresponding user story.  See corresponding userstory for more information.. Traceability will be tracked in the user story document.
 
 \end{document}                  % End of document
