@@ -1,0 +1,30 @@
+
+%% Macros for mapping
+% - use case to subsection level
+% - scenario to subsubsection level
+% - requirement to paragraph level
+%
+% Using these results in it being possible to cross-reference
+% requirements and getting unique identifiers which are author-chosen.
+
+% usage: \usecase{cross-reference}{display-reference} text text ...
+\newcommand{\usecase}[2]{
+  \subsection*{#2}
+  \label{#1}
+  \addcontentsline{toc}{subsection}{\nameref{#1}}
+}
+
+
+% usage: \scenario{cross-reference}{display-reference} text text ...
+\newcommand{\scenario}[2]{
+  \subsubsection*{#2}
+  \label{#1}
+  \addcontentsline{toc}{subsubsection}{\nameref{#1}}
+}
+
+ % usage: \requirement{cross-reference}{display-reference} text text ...
+\newcommand{\requirement}[2]{
+  \paragraph*{#2:}
+  \label{#1}
+  \addcontentsline{toc}{paragraph}{\nameref{#1}}
+}

@@ -41,31 +41,7 @@
 \def\@currentlabel{#2}\label{#1}}
 \makeatother
 
-% just a work-in-progress idea
-
-% usage: \usecase{cross-reference}{display-reference} text text ...
-\newcommand{\usecase}[2]{
-  \subsection*{#2}
-  \label{#1}
-  \addcontentsline{toc}{subsection}{\nameref{#1}}
-}
-
-
-% usage: \scenario{cross-reference}{display-reference} text text ...
-\newcommand{\scenario}[2]{
-  \subsubsection*{#2}
-  \label{#1}
-  \addcontentsline{toc}{subsubsection}{\nameref{#1}}
-}
-
-% usage: \requirement{cross-reference}{display-reference} text text ...
-\newcommand{\requirement}[2]{
-  \paragraph*{#2:}
-  \label{#1}
-  \addcontentsline{toc}{paragraph}{\nameref{#1}}
-}
-
-
+\input{DragonflyUtils.tex}
 
 
 \title{Dragonfly Quadrotor UAV \\ Product Requirements Specification}
