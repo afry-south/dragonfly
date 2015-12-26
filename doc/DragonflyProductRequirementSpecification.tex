@@ -33,14 +33,6 @@
 \usepackage{enumitem, hyperref}
 \usepackage{nameref}
 
-% suggestion from http://tex.stackexchange.com/questions/1230/reference-name-of-description-list-item-in-latex
-\makeatletter
-\newcommand{\labitem}[2]{%
-\def\@itemlabel{\textbf{#2}}
-\item
-\def\@currentlabel{#2}\label{#1}}
-\makeatother
-
 \input{DragonflyUtils.tex}
 
 
@@ -89,6 +81,34 @@ The \emph{Dragonfly} project is an internal competence enhancement project for Ã
 \requirement{req:cxn.sunny.wifi}{Cxn.Sunny.1}: The device should have a functional WiFi connection.
 \requirement{req:can.sunny.wless}{Cxn.Sunny.2}: The device should have a functional wireless connection.
 
+
+\usecase{uc:flight}{UC:Flight}
+\scenario{sc:flight-sunny}{SC:Flight-RC}
+\requirement{req:PRS-CF001}{PRS-CF001} The user must be able to control the Dragonfly manually through a RC transmitter.
+\requirement{req:PRS-CF002}{PRS-CF002} The manual control through the RC must have the highest priority (over mobile app and navigation control).
+\requirement{req:PRS-CF003}{PRS-CF003} The user must be able to switch between controlling through mobile app or RC and vice verse while flying.
+\requirement{req:PRS-CF004}{PRS-CF004}: When the user releases the RC control levers the Dragonfly must return to a hovering position.
+
+\scenario{sc:flight-sunny}{SC:Flight-App}
+\requirement{req:PRS-CF005}{PRS-CF005} The user must be able to control the Dragonfly manually through a mobile app.
+\requirement{req:PRS-CF006}{PRS-CF006} The app must be able to detect when the user releases the control as per \nameref{req:PRS-CF007}.
+
+\scenario{sc:flight-sunny}{SC:Flight-All}
+\requirement{req:PRS-CF007}{PRS-CF007} The Dragonfly must have a self stabilizing control algorithm.
+\requirement{req:PRS-CF008}{PRS-CF008} The user must be able to control the Dragonfly in directions:
+\begin{itemize}
+\item Forwards
+\item Backwards
+\item Left
+\item Right
+\item Rotate clockwise \& anticlockwise viewed from above.
+\item Up
+\item Down
+\end{itemize}
+\requirement{req:PRS-CF009}{PRS-CF009}: The Dragonfly must be able to land on its own.
+\requirement{req:PRS-CF010}{PRS-CF010}: The Dragonfly must be able to fly in winds up to 10 m/s. % is this average or gust wind? The latter is more realistic as 10m/s is already a 5 on the Beaufort scale.
+
+
 \section{Sub-system: Charging}
 
 \scenario{sc:Quadcopter unit initiated initiated  charging}{SC:Quadcopter unit initiated charging}
@@ -128,28 +148,6 @@ The \emph{Dragonfly} project is an internal competence enhancement project for Ã
 \item last known position of the device is made available remotely.
 \end{itemize}
 
-\subsection{Use case 4: Control Flight}
-
-\begin{enumerate}
-\labitem{req:cf.1}{Control Flight.1}: The user must be able to control the Dragonfly manually through a RC transmitter.
-\labitem{req:cf.2}{Control Flight.2}: The user must be able to control the Dragonfly manually through a mobile app.
-\labitem{req:cf.3}{Control Flight.3}: The user must be able to switch between controlling through mobile app or RC and vice verse while flying.
-\labitem{req:cf.4}{Control Flight.4}: The manual control through the RC must have the highest priority (over mobile app and navigation control).
-\labitem{req:cf.5}{Control Flight.5}: The Dragonfly must have a self stabilizing control algorithm.
-\labitem{req:cf.6}{Control Flight.6}: The user must be able to control the Dragonfly flying:
-\begin{itemize}
-\item Forwards.
-\item Backwards.
-\item Left.
-\item Right.
-\item Rotate.
-\item Up.
-\item Down.
-\end{itemize}
-\labitem{req:cf.7}{Control Flight.7}: When the user releases the control the Dragonfly must return to a stand still position.
-\labitem{req:cf.8}{Control Flight.8}: The Dragonfly must be able to land on its own.
-\labitem{req:cf.9}{Control Flight.9}: The Dragonfly must be able to fly in winds up to 10 m/s.
-\end{enumerate}
 
 
 \section{Example}
@@ -161,8 +159,6 @@ And they will appear like use cases etc in the table of contents.
 
 
 \section{Example: Referring to requirements}
-\subsection{Referring to reqs by itemlabel}
-Use \verb!\ref!to refer to the \verb!\labitem! requirements. Let's consider requirement \ref{req:cf.5} and \ref{req:cf.6}.
 
 \subsection{Referring to newcommand uc, scenario and requirements.}
 It is preferred to use the \verb!\nameref! to refer to the use cases, scenarios and requirements.
