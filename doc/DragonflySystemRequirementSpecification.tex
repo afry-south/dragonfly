@@ -104,7 +104,7 @@ Signature & Name & Title & Date \\ [0.5ex]
 	& & & \\
 \hline
 \end{tabular}
-\label{table:nonline}	
+\label{table:nonline}
 \end{table}
 
 \newpage
@@ -115,7 +115,7 @@ Signature & Name & Title & Date \\ [0.5ex]
 
 \section{Introduction}
 
-The System Requirement Specification (SRS) document is a technical description of the functional and non-functional requirements needed for the Dragonfly project. A system design picture containing the Dragonfly system and all its subsystem is described below. This document should contain all of the information needed by a software engineer to adequately design and implement the software product described by the requirements listed in this document. 
+The System Requirement Specification (SRS) document is a technical description of the functional and non-functional requirements needed for the Dragonfly project. A system design picture containing the Dragonfly system and all its subsystem is described below. This document should contain all of the information needed by a software engineer to adequately design and implement the software product described by the requirements listed in this document.
 
 \begin{figure}[!h]
 	\centering
@@ -132,8 +132,8 @@ The purpose of this SRS is to list all the system requirements and how they map 
 
 The subsystems that are part of the dragonfly system is:
 \begin{itemize}
-	\item Charger subsystem. Which is responsible for controlling charge level and charging the Dragonfly UAV Quadcopter unit. It will also suggest or redirect to an available charging base. 
-	By doing so it enables optimized usage of the dragonfly from a charging point of view.
+	\item Charger subsystem. Which is responsible for controlling charge level and charging the Dragonfly UAV Quadcopter unit. It will also suggest or redirect to an available charging base.
+	By doing so it enables optimised usage of the dragonfly from a charging point of view.
 	\item subsystem X.
 	\item Subsystem Y.
 \end{itemize}
@@ -143,7 +143,7 @@ The subsystems that are part of the dragonfly system is:
 The SRS contains the following definitions of terms, acronyms, and abbreviations required to properly interpret the SRS.
 \begin{itemize}
 	\item SRS - System Requirement Specification.
-	\item PRS - Product Requirement Specification. 
+	\item PRS - Product Requirement Specification.
 	\item UC  - Use case definition.
 \end{itemize}
 
@@ -162,11 +162,11 @@ The SRS describes the general factors that affect the dragonfly project and its 
 
 \subsection{Product Perspective}
 
-This subsection of the SRS puts the dragonfly product into perspective with other related products requirements or projects goals. 
+This subsection of the SRS puts the dragonfly product into perspective with other related products requirements or projects goals.
 
 \subsection{Product Functions}
 
-The summary of the product requirements are listed in \cite{Dragonfly-PRS}. 
+The summary of the product requirements are listed in \cite{Dragonfly-PRS}.
 
 
 \subsection{General Constraints}
@@ -176,7 +176,7 @@ From a software point of view all sub-system are considered to be a part of the 
 
 \subsection{Assumptions and Dependencies}
 
-This part of the SRS list each of the factors that affect the requirements stated in the SRS. These factors are not design constraints on the software but are, rather, any changes to them that can affect the requirements in the SRS. 
+This part of the SRS list each of the factors that affect the requirements stated in the SRS. These factors are not design constraints on the software but are, rather, any changes to them that can affect the requirements in the SRS.
 It is assumed that the flight control board (FCB) runs a freeRTOS and has an interface to the flight management system (FMS) that will run on a Linux debian armhfs distribution. All the different hardware components should interface either the FMS or the FCB and be controlled by its corresponding subsystem.
 
 \section{Specific Requirements}
@@ -184,15 +184,16 @@ It is assumed that the flight control board (FCB) runs a freeRTOS and has an int
 This section is the largest and most important section of the SRS.
 
 Each requirement in this section should be:
-•	Correct
-•	Traceable (both forward and backward to prior/future artifacts)
-•	Unambiguous
-•	Verifiable (i.e., testable)
-•	Prioritized (with respect to importance and/or stability)
-•	Complete
-•	Consistent
-•	Uniquely identifiable (usually via numbering like 3.4.5.6)
-
+\begin{itemize}
+\item	Correct
+\item	Traceable (both forward and backward to prior/future artifacts)
+\item	Unambiguous
+\item	Verifiable (i.e., testable)
+\item	Prioritised (with respect to importance and/or stability)
+\item	Complete
+\item	Consistent
+\item	Uniquely identifiable (usually via numbering like 3.4.5.6)
+\end{itemize}
 Note that this SRS is not a software design document, therefore one should avoid the tendency to over-constrain and design the software project within this SRS.
 
 \subsection{External Interface Requirements}
@@ -295,7 +296,7 @@ Note that this SRS is not a software design document, therefore one should avoid
 
 
 \subsection{Use Cases}
-All use cases used by the different subsections or use case referrals are listed in \cite{Dragonfly-UC}. 
+All use cases used by the different subsections or use case referrals are listed in \cite{Dragonfly-UC}.
 
 \subsection{Classes / Objects}
 All classes, objects, functions and attributes for addressing functional requirements are to be solved by their corresponding user story. See corresponding user story description in the project.
@@ -304,13 +305,13 @@ All classes, objects, functions and attributes for addressing functional require
 Non-functional requirements for the dragonfly system will be listed in this sub chapter.
 
 \subsubsection{Performance}
-The dragonfly performance must be robust and FMS system be thread-safe, meaning if a thread hangs it must be possible to restart it without affecting the whole dragonfly system. 
+The dragonfly performance must be robust and FMS system be thread-safe, meaning if a thread hangs it must be possible to restart it without affecting the whole dragonfly system.
 \paragraph{Reliability}
-Navigation and orientation must be reliable constantly, if a sensor needed for navigation is malfunctioning or is broken, the Dragonfly quadcopter unit must land in a controlled manner. 
+Navigation and orientation must be reliable constantly, if a sensor needed for navigation is malfunctioning or is broken, the Dragonfly quadcopter unit must land in a controlled manner.
 \paragraph{Security}
-Due to the size and weight of the Dragonfly quadcopter unit, it is crucial that the flight management has a recovery mode if something happens to main dragonfly system. If the FMS is unresponsive it is up the FCB to perform a smooth and controlled landing, ensuring that neither the quad copter unit nor other object can be harmed or destroyed.  
+Due to the size and weight of the Dragonfly quadcopter unit, it is crucial that the flight management has a recovery mode if something happens to main dragonfly system. If the FMS is unresponsive it is up the FCB to perform a smooth and controlled landing, ensuring that neither the quad copter unit nor other object can be harmed or destroyed.
 \paragraph{Maintainability}
-The system software of the Dragonfly quadcopter unit may only be updated and/or upgraded during development and stabilization phase of the project. After executing the corresponding user story and meeting definition of "Done", upgrade and update should not be performed. 
+The system software of the Dragonfly quadcopter unit may only be updated and/or upgraded during development and stabilization phase of the project. After executing the corresponding user story and meeting definition of "Done", upgrade and update should not be performed.
 
 \subsection{Design Constraints}
 There Dragonfly has hardware constraints, due to weight limitation and charging capacity. All components that needs to be added, has to be evaluated with these constraints.
