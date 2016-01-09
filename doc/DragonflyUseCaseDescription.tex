@@ -101,6 +101,81 @@ List any assumptions that were made in the analysis that led to accepting this u
 List any additional comments about this use case or any remaining open issues or TBDs (To Be Determineds) that must be resolved. Identify who will resolve each issue, the due date, and what the resolution ultimately is.
 
 \newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%				MANUAL FLIGHT
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Use Case: Manual Remote-Controlled Flight}
+\subsection{Use case details}
+
+\begin{tabular}{lll}
+	&Name  & Manual Remote-Controlled Flight \\
+	&ID  & 703e5a20-168f-4a4d-9b6d-188e54bbbaea \\
+	&Creation date  & January 9, 2016 \\
+	&Created by  & Daniel Stenberg 
+\end{tabular}
+
+\subsection{Actor}
+Quadcopter unit, Quadcopter user, Remote control (RC) transmitter.
+
+\subsection{Description}
+In order to achieve manual piloting capability, this use case describes the procedure and level of software assistance, i.e. the flight control subsystem, provided for this to be possible. Since the quadcopter is very difficult to pilot by direct motor control, control logic and on-board sensor feedback must be used to achieve any level of safe manual flight. From the RC transmitter, the user should control altitude as well as the orientation around the x, y and z axes (i.e. roll, pitch and yaw angles).
+
+\subsection{Preconditions}
+The following constraints must be true to be able to run the scenarios within this use case.
+\begin{itemize}
+	\item The user must have access to the RC transmitter and know how to use it to pilot the quadcopter.
+	\item The quadcopter takes off from level surface on the ground and is mainly operated in the air.
+\end{itemize}
+
+\subsection{Postconditions}
+The following constraint must be true after completing the scenarios of this use case.
+\begin{itemize}
+	\item The user is able to operate the quadcopter in an expected manner.
+	\item The user is able to land the quadcopter without much difficulty.
+\end{itemize}
+
+\subsection{Priority}
+The scenario of this use case should have the highest prioritiy to be able to meet the classifiers objectives.
+
+\subsection{Frequency of use}
+The functions defined by this use case are fundamental to quadcopter control and always in use during manual flight. A subset of the functionality will also be in use in autonomous flight, such as low-level stabilization.
+
+\subsection{Normal course of events}
+This use case has the following scenarios with the normal course of events:
+\begin{itemize}
+	\item Quadcopter takes off from ground and quickly stabilizes its orientation to avoid near-ground collision.
+	\item Quadcopter controls altitude and orientation based on RC transmitter input provided by user.
+	\item Quadcopter lands stably on level surface.
+\end{itemize}
+
+\subsection{Alternative courses}
+\begin{itemize}
+	\item On ground disable: User should be notified and the quadcopter shouldn't be able to take off.
+	\item Hard disable: Quadcopter motor speed should be lowered gradually or turned off immediately. 
+	\item Soft disable: Depending on the fault type, a small time-window of a few seconds may be provided to the pilot to land the system through manual (non-software assisted) control before turning off the motors.
+\end{itemize}
+
+\subsection{Exceptions}
+If the flight control subsystem fails due to an exception or fault, the following scenarios must be followed:
+\begin{itemize}
+	\item RC link failure: If the quadcopter fails to read from the RC transmitter. Either \emph{On ground disable} or \emph{Hard disable} courses should be applied.
+	\item Sensor failure: If a sensor utilized by the flight control logic, either \emph{On ground disable} or \emph{Soft disable} courses should be applied.
+	\item Motor failure: If a motor failure occurs, apply either \emph{On ground disable} or \emph{Hard disable} courses.
+\end{itemize}
+
+\subsection{Includes}
+Safety UC.
+
+\subsection{Special requirements}
+It is of utmost importance that the system is designed such that a single fault-event is detected and handled in a very conservative way to avoid injury or fly-away of the quadcopter.
+
+\subsection{Assumptions}
+N/A
+
+\subsection{Notes and Issues}
+N/A
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %				CHARGE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
