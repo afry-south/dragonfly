@@ -84,7 +84,7 @@ Reverse chronological order.
 \newpage
 
 \section{System description}
-The quad-copter will have autonomous behaviour, for instance to avoid collisions and to be able to recharge itself by docking with a charging station.
+The quadcopter will have autonomous behaviour, for instance to avoid collisions, land automatically and to be able to recharge itself by docking with a charging station.
 
 There is a requirement list for the DragonFly Quadcopter somewhere TODO link.
 
@@ -96,7 +96,7 @@ There is a requirement list for the DragonFly Quadcopter somewhere TODO link.
 \end{figure}
 
 \section{Flight Software (Flight Control Board)}
-The quad-copter is self-stabilising which is handled by the Flight Control Board.
+The quadcopter is self-stabilising which is handled by the Flight Control Board.
 
   \subsection{Flight commands}
   These commands provide the set point for the flight control software.
@@ -119,7 +119,7 @@ The quad-copter is self-stabilising which is handled by the Flight Control Board
 
   \subsubsection{Sources of flight commands}
   \label{sec:flight-cmd-src}
-  Flight commansd may come from, in order of priority:
+  Flight commands may come from, in order of priority:
   \begin{enumerate}
     \item A competent pilot using the R/C radio TX.
     \item Collision avoidance functionality in Flight Control Board.
@@ -135,9 +135,9 @@ The quad-copter is self-stabilising which is handled by the Flight Control Board
   \label{sec:flight-sensor-inputs}
   The Flight Control Board has sensors which monitor:
   \begin{itemize}
-    \item acceleration along all three geometric axes.
-    \item rotational acceleration around all three geometric axes.
-    \item a compass which measures rotation relative to Earth's magnetic field
+    \item Acceleration along all three geometric axes.
+    \item Rotational velocity around all three geometric axes.
+    \item A compass which measures rotation relative to Earth's magnetic field
     \item Proximity sensors measuring distance to nearest object in all 3 axis, a total of six sensors. The forward-facing sensor should have greater range, see section \ref{sec:collision-avoidance}. The bottom sensor needs enough precision to allow docking on the charging station.
   \end{itemize}
   \subsubsection{Collision avoidance}
