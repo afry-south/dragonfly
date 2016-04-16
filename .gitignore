@@ -8,3 +8,6 @@ doc/*.synctex.gz
 *.blg
 
 #Add nanopb executables
+
+#Ignore Python executables
+*.pyc
