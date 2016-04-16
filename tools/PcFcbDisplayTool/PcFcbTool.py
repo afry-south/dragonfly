@@ -48,10 +48,13 @@ sema = threading.Condition()
 roll_data = deque([float(0)]*100) # append & pop from opposite ends is thread safe according to .py doc 
 pitch_data = deque([float(0)]*100) # append & pop from opposite ends is thread safe according to .py doc 
 yaw_data = deque([float(0)]*100) # append & pop from opposite ends is thread safe according to .py doc 
+rollrate_data = deque([float(0)]*100) # append & pop from opposite ends is thread safe according to .py doc 
+pitchrate_data = deque([float(0)]*100) # append & pop from opposite ends is thread safe according to .py doc 
+yawrate_data = deque([float(0)]*100) # append & pop from opposite ends is thread safe according to .py doc 
 
 RAD_TO_DEG_FACTOR = 180/math.pi
 
-def update_plot_data(new_roll_data, new_pitch_data, new_yaw_data):
+def update_plot_data(new_roll_data, new_pitch_data, new_yaw_data, new_rollrate_data, new_pitchrate_data, new_yawrate_data):
     sema.acquire(blocking = 1)
     roll_data.appendleft(new_roll_data*RAD_TO_DEG_FACTOR)
     datatoplot = roll_data.pop() # only want 100 values to plot at any one time
@@ -59,6 +62,13 @@ def update_plot_data(new_roll_data, new_pitch_data, new_yaw_data):
     datatoplot = pitch_data.pop() # only want 100 values to plot at any one time    
     yaw_data.appendleft(new_yaw_data*RAD_TO_DEG_FACTOR)
     datatoplot = yaw_data.pop() # only want 100 values to plot at any one time    
+    
+    rollrate_data.appendleft(new_rollrate_data*RAD_TO_DEG_FACTOR)
+    datatoplot = rollrate_data.pop() # only want 100 values to plot at any one time
+    pitchrate_data.appendleft(new_pitchrate_data*RAD_TO_DEG_FACTOR)
+    datatoplot = pitchrate_data.pop() # only want 100 values to plot at any one time    
+    yawrate_data.appendleft(new_yawrate_data*RAD_TO_DEG_FACTOR)
+    datatoplot = yawrate_data.pop() # only want 100 values to plot at any one time   
     
     sema.notify() # notify plot that data is available
     sema.release()
@@ -98,7 +108,7 @@ def comReader(sample_nbr):
                 pprint("sample %d discarded: %s" % (i, de.__str__()))
                 continue
             # sys.stdout.write(state.__str__()); # useful for debugging
-            update_plot_data(state.rollAngle, state.pitchAngle, state.yawAngle)
+            update_plot_data(state.rollAngle, state.pitchAngle, state.yawAngle, state.rollRate, state.pitchRate, state.yawRate)
         else:
             pprint("%s received: %s", comReader.__name__, line)
 
@@ -111,20 +121,30 @@ def comReader(sample_nbr):
 app = QtGui.QApplication([])
 
 win = pg.GraphicsWindow(title="Basic plotting examples")
-#win.resize(1000,600)
+win.resize(1000,600)
 win.setWindowTitle('pyqtgraph example: Plotting')
 pg.setConfigOptions(antialias=True) # Enable antialiasing for prettier plots
 
 roll_plot = win.addPlot(title="Roll angle [deg]")
-roll_plot_curve = roll_plot.plot(pen='r', name='Roll [rad]')
+roll_plot_curve = roll_plot.plot(pen='r', name='Roll [deg]')
 roll_plot.showGrid(x=True, y=True)
 roll_plot.setYRange(-180, 180)
 
+rollrate_plot = win.addPlot(title="Roll rate [deg/s]")
+rollrate_plot_curve = rollrate_plot.plot(pen='r', name='Roll rate [deg/s]')
+rollrate_plot.showGrid(x=True, y=True)
+rollrate_plot.setYRange(-180, 180)
+
 win.nextRow()
 pitch_plot = win.addPlot(title="Pitch angle [deg]")
-pitch_plot_curve = pitch_plot.plot(pen='g', name='Pitch [rad]')
+pitch_plot_curve = pitch_plot.plot(pen='g', name='Pitch [deg]')
 pitch_plot.showGrid(x=True, y=True)
 pitch_plot.setYRange(-180, 180)
+
+pitchrate_plot = win.addPlot(title="Pitch rate [deg/s]")
+pitchrate_plot_curve = pitchrate_plot.plot(pen='g', name='Pitch rate [deg/s]')
+pitchrate_plot.showGrid(x=True, y=True)
+pitchrate_plot.setYRange(-180, 180)
 
 win.nextRow()
 yaw_plot = win.addPlot(title="Yaw angle [deg]")
@@ -132,11 +152,21 @@ yaw_plot_curve = yaw_plot.plot(pen='y', name='Yaw [deg]')
 yaw_plot.showGrid(x=True, y=True)
 yaw_plot.setYRange(-180, 180)
 
+yawrate_plot = win.addPlot(title="Yaw rate [deg/s]")
+yawrate_plot_curve = yawrate_plot.plot(pen='y', name='Yaw rate [deg/s]')
+yawrate_plot.showGrid(x=True, y=True)
+yawrate_plot.setYRange(-180, 180)
+
 def plotUpdate():
-    global ptr, roll_plot, pitch_plot, yaw_plot
+    global ptr, roll_plot, pitch_plot, yaw_plot, rollrate_plot, pitchrate_plot, yawrate_plot
+    
     roll_plot_curve.setData(roll_data)
     pitch_plot_curve.setData(pitch_data)
     yaw_plot_curve.setData(yaw_data)
+    
+    rollrate_plot_curve.setData(rollrate_data)
+    pitchrate_plot_curve.setData(pitchrate_data)
+    yawrate_plot_curve.setData(yawrate_data)
 
 
 timer = QtCore.QTimer()
