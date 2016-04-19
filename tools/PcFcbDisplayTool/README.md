@@ -17,6 +17,7 @@ sudo apt-get install python-dev
 sudo apt-get install python-pip
 sudo python -m pip install pyserial numpy protobuf pyside pyqtgraph
 sudo python -m pip install pyside pyqtgraph
+sudo python -m pip install crcmod
 
 Troubleshooting: Try to update the packages if they do not seem to be working correctly. Example:
 sudo python -m pip install pyserial --upgrade pyserial

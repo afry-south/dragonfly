@@ -6,6 +6,7 @@ import argparse
 import time
 import math
 import serial
+import crcmod
 import threading
 from serial.tools.list_ports import comports
 import dragonfly_fcb_pb2
@@ -82,10 +83,17 @@ def comReader(sample_nbr):
     dprint("comReader is executing in: " + threading.currentThread().name)
     state = dragonfly_fcb_pb2.FlightStatesProto()
     i = 0;
+    
+    byte_buffer = bytearray()
 
     while (i < sample_nbr and not do_exit):
-        line = ""
+        del byte_buffer[:] # Reset the buffer
+        byte_cnt = 0
         data = ' '
+        
+# TODO Below should search for data header and then read out length bytes, not try to find \r or \n...
+# TODO CRC Check
+# TODO New data message encapsulation
         while (data != '\r'):
             try:
                 data = fcb_serial.read(1);
@@ -93,24 +101,26 @@ def comReader(sample_nbr):
                 pprint("serial.SerialException: %s" % (se.__str__()))
                 do_exit = True
                 break
-            if (data != '\n') and (data != '\r'):
-                line += str(data)
+            if (data != '\n') and (data != '\r') and (data != None):
+                byte_buffer.append(data[0])
+                byte_cnt += 1
+                #line += str(data)
         
         if do_exit:
             break
         
         i += 1;
-        hexified = ':'.join(x.encode('hex') for x in line)
-        if hexified[:2] == "04":
+        
+        if byte_cnt > 4 and byte_buffer[0] == 4 and byte_cnt >= byte_buffer[2]: # 4 for flight state data ID/enum, size has offset 2
             try:
-                state.ParseFromString(line[4:]);
+                state.ParseFromString(str(byte_buffer[4:4+byte_buffer[2]])); # Data offset 4
             except google.protobuf.message.DecodeError as de:
                 pprint("sample %d discarded: %s" % (i, de.__str__()))
                 continue
             # sys.stdout.write(state.__str__()); # useful for debugging
             update_plot_data(state.rollAngle, state.pitchAngle, state.yawAngle, state.rollRate, state.pitchRate, state.yawRate)
         else:
-            pprint("%s received: %s", comReader.__name__, line)
+            pprint("%s received: %s", comReader.__name__, byte_buffer)
 
     fcb_serial.close()
     pprint("%s done - close graphics window to exit" % comReader.__name__)
@@ -182,6 +192,7 @@ myComReaderThread.daemon = True
 myComReaderThread.start()
 fcb_serial.write("about\r") # data does not show up when removing this line ... work-around
 time.sleep(1)
+
 try:
     fcb_serial.write("start-state-sampling %d %d p" % (cli_args.interval_ms, cli_args.duration_s) + "\r")
 except serial.SerialTimeoutException as ste:
@@ -191,9 +202,8 @@ except serial.SerialTimeoutException as ste:
 
 if __name__ == '__main__':
     ## Start Qt event loop unless running in interactive mode or using pyside.
-    import sys
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
-        pprint("close window to exit program")
+        pprint("Close window to exit program")
         QtGui.QApplication.instance().exec_()
         do_exit = True
 
@@ -203,7 +213,7 @@ if myComReaderThread.isAlive():
     fcb_serial.close()
     time.sleep(interval_s)
     
-pprint("... please wait for program to exit")
+pprint("Please wait for program to exit")
 if fcb_serial.is_open:
     fcb_serial.close()
 
