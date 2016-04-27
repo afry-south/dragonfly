@@ -85,42 +85,62 @@ def comReader(sample_nbr):
     i = 0;
     
     byte_buffer = bytearray()
+    DATA_HEADER_SIZE = 4 # Will be 7: 1 byte ID, 4 bytes CRC, 2 bytes msg length
+    STATES_MSG_ID = 4
 
     while (i < sample_nbr and not do_exit):
         del byte_buffer[:] # Reset the buffer
         byte_cnt = 0
         data = ' '
+        msg_type_id = -1
+        msg_data_len = -1 # Holds data payload byte length
+        data_crc = -1
         
 # TODO Below should search for data header and then read out length bytes, not try to find \r or \n...
 # TODO CRC Check
 # TODO New data message encapsulation
-        while (data != '\r'):
+
+        # header + payload + 2 bytes msg end chars \n\r
+        while ((byte_cnt < msg_data_len+DATA_HEADER_SIZE+2 and msg_data_len > 0) or (msg_data_len < 0 and data != '\r')):
             try:
                 data = fcb_serial.read(1);
             except serial.SerialException as se:
                 pprint("serial.SerialException: %s" % (se.__str__()))
                 do_exit = True
                 break
-            if (data != '\n') and (data != '\r') and (data != None):
+            if data != None:
                 byte_buffer.append(data[0])
                 byte_cnt += 1
                 #line += str(data)
+                if byte_cnt == DATA_HEADER_SIZE:
+                    msg_type_id = byte_buffer[0]
+                    # msg_crc = byte_buffer[1:5]
+                    msg_data_len = byte_buffer[2] # Will be: byte_buffer[5]*256 + byte_buffer[6] (if we have big endianess/network byte order)
         
         if do_exit:
             break
         
         i += 1;
         
-        if byte_cnt > 4 and byte_buffer[0] == 4 and byte_cnt >= byte_buffer[2]: # 4 for flight state data ID/enum, size has offset 2
+        # Only parsing state values here (ID 4)
+        print("msg ID: " + str(msg_type_id))
+        #print("msg_CRC: " + str(msg_crc))
+        print("msg len: " + str(msg_data_len))
+        print("")
+        
+        if byte_cnt > DATA_HEADER_SIZE and msg_type_id == STATES_MSG_ID and byte_cnt >= msg_data_len:
             try:
-                state.ParseFromString(str(byte_buffer[4:4+byte_buffer[2]])); # Data offset 4
+                state.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len])); # Data offset 4
             except google.protobuf.message.DecodeError as de:
                 pprint("sample %d discarded: %s" % (i, de.__str__()))
+                fcb_serial.reset_input_buffer() # Flush input
                 continue
+            
             # sys.stdout.write(state.__str__()); # useful for debugging
             update_plot_data(state.rollAngle, state.pitchAngle, state.yawAngle, state.rollRate, state.pitchRate, state.yawRate)
         else:
             pprint("%s received: %s", comReader.__name__, byte_buffer)
+            fcb_serial.reset_input_buffer() # Flush input
 
     fcb_serial.close()
     pprint("%s done - close graphics window to exit" % comReader.__name__)
