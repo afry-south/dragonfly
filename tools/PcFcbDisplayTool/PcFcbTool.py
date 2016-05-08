@@ -149,7 +149,7 @@ def update_states_plot_data(new_roll_data, new_pitch_data, new_yaw_data, new_rol
 # handy tip, type: python -m serial.tools.list_ports
 # to list available COM ports at the terminal.
 
-def comReader(sample_nbr):
+def comReader(duration_s):
     global do_exit
     pprint("%s starting" % comReader.__name__)
     dprint("comReader is executing in: " + threading.currentThread().name)
@@ -158,7 +158,8 @@ def comReader(sample_nbr):
     motor = dragonfly_fcb_pb2.MotorSignalValuesProto()
     # sensor = dragonfly_fcb_pb2.SensorSamplesProto()
     state = dragonfly_fcb_pb2.FlightStatesProto()
-    # reference = dragonfly_fcb_pb2.ControlReferenceSignalsProto()
+    refsignals = dragonfly_fcb_pb2.ControlReferenceSignalsProto()
+    #ctrlsignals = dragonfly_fcb_pb2.ControlSignalsProto()
     
     i = 0;
     
@@ -171,11 +172,15 @@ def comReader(sample_nbr):
     SENSOR_MSG_ID = 3
     STATES_MSG_ID = 4
     REFSIGNAL_MSG_ID = 6
+    CTRLSIGNAL_MSG_ID = 8
     
     last_send_time = start_time
+    end_time = start_time + duration_s
     now_time = 0
 
-    while (i < sample_nbr and not do_exit):
+    while (now_time < end_time and not do_exit):
+        
+        now_time = timeit.default_timer()
         
         # Sleep, then send requests for new data from FCB
         time.sleep(cli_args.interval_ms/1000.0)
@@ -183,17 +188,6 @@ def comReader(sample_nbr):
         msg_sent = False
         msg_cnt = 0
         
-        # Get state values
-        try:
-            fcb_serial.write("get-states p\r")
-            msg_sent = True
-            msg_cnt += 1
-        except serial.SerialTimeoutException as ste:
-            fcb_serial.close()
-            pprint(ste.__str__())
-            quit()
-        
-        time.sleep(0.001)
         
         # Get motor values
         try:
@@ -219,6 +213,42 @@ def comReader(sample_nbr):
             
         if msg_sent:
             last_send_time = timeit.default_timer()
+            
+        # Get state values
+        try:
+            fcb_serial.write("get-states p\r")
+            msg_sent = True
+            msg_cnt += 1
+        except serial.SerialTimeoutException as ste:
+            fcb_serial.close()
+            pprint(ste.__str__())
+            quit()
+        
+        time.sleep(0.001)
+        
+        # Get reference signal values
+        #try:
+            #fcb_serial.write("get-ref-signals p\r")
+            #msg_sent = True
+            #msg_cnt += 1
+        #except serial.SerialTimeoutException as ste:
+            #fcb_serial.close()
+            #pprint(ste.__str__())
+            #quit()
+            
+        #time.sleep(0.001)
+        
+        # Get control signal values
+        #try:
+            #fcb_serial.write("get-ctrl-signals p\r")
+            #msg_sent = True
+            #msg_cnt += 1
+        #except serial.SerialTimeoutException as ste:
+            #fcb_serial.close()
+            #pprint(ste.__str__())
+            #quit()
+            
+        #time.sleep(0.001)
         
 # TODO real CRC Check
 # TODO check msgID, CRC and length are digits after string conversion
@@ -236,8 +266,9 @@ def comReader(sample_nbr):
             
             # header + payload + 2 bytes msg end chars \n\r, TODO check for valid size and msg id
             while ((byte_cnt < msg_data_len+DATA_HEADER_SIZE+2 and msg_data_len > 0) or (msg_data_len < 0 and data != '\r')):
-                now_time = timeit.default_timer()
-                if(now_time >= last_send_time + cli_args.interval_ms/1000.0):
+                new_time = timeit.default_timer()
+                if(new_time >= last_send_time + cli_args.interval_ms/1000.0):
+                    print("Read timeout, flushing buffer")
                     fcb_serial.reset_input_buffer() # Flush input if timed out
                     break
                 try:
@@ -276,6 +307,7 @@ def comReader(sample_nbr):
                         pprint("motors sample %d discarded: %s" % (i, de.__str__()))
                         fcb_serial.reset_input_buffer() # Flush input
                         continue
+                    
                     update_motor_plot_data(motor.M1, motor.M2, motor.M3, motor.M4)
                 elif msg_type_id    == STATES_MSG_ID:
                     try:
@@ -283,8 +315,7 @@ def comReader(sample_nbr):
                     except google.protobuf.message.DecodeError as de:
                         pprint("states sample %d discarded: %s" % (i, de.__str__()))
                         fcb_serial.reset_input_buffer() # Flush input
-                        continue
-                    #update_state_plot_data() # TODO
+
                     update_states_plot_data(state.rollAngle, state.pitchAngle, state.yawAngle, state.rollRate, state.pitchRate, state.yawRate)
                 elif msg_type_id    == RC_MSG_ID:
                     try:
@@ -293,8 +324,28 @@ def comReader(sample_nbr):
                         pprint("RC sample %d discarded: %s" % (i, de.__str__()))
                         fcb_serial.reset_input_buffer() # Flush input
                         continue
-                    #update_state_plot_data() # TODO
+
                     update_rc_plot_data(rc.throttle, rc.aileron, rc.elevator, rc.rudder)
+                    
+                elif msg_type_id    == REFSIGNAL_MSG_ID:
+                    try:
+                        refsignals.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
+                    except google.protobuf.message.DecodeError as de:
+                        pprint("Ref signal sample %d discarded: %s" % (i, de.__str__()))
+                        fcb_serial.reset_input_buffer() # Flush input
+                        continue
+
+                    #update_ref_plot_data(refsignals.roll, refsignals.pitch, refsignals.yawrate)
+                    
+                #elif msg_type_id    == CTRLSIGNAL_MSG_ID:
+                    #try:
+                        #ctrlsignals.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
+                    #except google.protobuf.message.DecodeError as de:
+                        #pprint("Ref signal sample %d discarded: %s" % (i, de.__str__()))
+                        #fcb_serial.reset_input_buffer() # Flush input
+                        #continue
+
+                    #update_ctrl_plot_data(ctrlsignals.Thrust, ctrlsignals.RollMom, ctrlsignals.PitchMom, ctrlsignals.YawMom)
             else:
                 pprint("%s received: %s", comReader.__name__, byte_buffer)
                 fcb_serial.reset_input_buffer() # Flush input
@@ -394,14 +445,14 @@ def plotStatesUpdate():
 
 
 interval_s = cli_args.interval_ms/float(1000)
-sample_nbr = int(float(cli_args.duration_s / interval_s))
+duration_s = int(cli_args.duration_s)
 
 timer = QtCore.QTimer()
 timer.timeout.connect(plotUpdate)
 timer.start(10)
 
 fcb_serial = serial.Serial(cli_args.com, 115200, parity=serial.PARITY_NONE, rtscts=False, xonxoff=False, timeout=1, write_timeout=2)
-myComReaderThread = threading.Thread(target=comReader, name="tComReader", args=(sample_nbr,))
+myComReaderThread = threading.Thread(target=comReader, name="tComReader", args=(duration_s,))
 myComReaderThread.daemon = True
 myComReaderThread.start()
 #fcb_serial.write("about\r") # data does not show up when removing this line ... work-around
