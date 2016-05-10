@@ -35,7 +35,7 @@ tool_description="Sample the estimated RPY angles from the FCB card. Also see RE
 arg_parser = argparse.ArgumentParser(description=tool_description)
 arg_parser.add_argument("interval_ms", type=int, help="[100 ...] nbr of milliseconds between each state sample")
 arg_parser.add_argument("duration_s", type=int, help="[2 ..] state will be sampled for a duration of seconds")
-arg_parser.add_argument("--com", type=str, default="dev/ttyACM0", help="give the name of the COM port for STM32 Virtual Com Port")
+arg_parser.add_argument("--com", type=str, default="/dev/ttyACM0", help="give the name of the COM port for STM32 Virtual Com Port")
 # TODO arg_parser.add_argument("--data", type=str, default="cmsfr", help="Specify which combined data to acquire and plot (c=RC, m=motor, s=sensor, f=states, r=reference")
 cli_args = arg_parser.parse_args()
 
@@ -199,7 +199,7 @@ def comReader(duration_s):
             pprint(ste.__str__())
             quit()
             
-        time.sleep(0.001)
+        time.sleep(0.002)
         
         # Get RC values
         try:
@@ -213,6 +213,8 @@ def comReader(duration_s):
             
         if msg_sent:
             last_send_time = timeit.default_timer()
+
+        time.sleep(0.002)
             
         # Get state values
         try:
@@ -224,7 +226,7 @@ def comReader(duration_s):
             pprint(ste.__str__())
             quit()
         
-        time.sleep(0.001)
+        time.sleep(0.002)
         
         # Get reference signal values
         #try:
@@ -291,12 +293,12 @@ def comReader(duration_s):
             
             i += 1;
             
-            if debug_print:
-                print("Message ID: " + str(msg_type_id))
-                print("CRC: " + str(msg_data_crc))
-                print("Payload size: " + str(msg_data_len))
-                print("Total bytes read: " + str(byte_cnt))
-                print("")
+            #if debug_print:
+                #print("Message ID: " + str(msg_type_id))
+                #print("CRC: " + str(msg_data_crc))
+                #print("Payload size: " + str(msg_data_len))
+                #print("Total bytes read: " + str(byte_cnt))
+                #print("")
             
             if byte_cnt > DATA_HEADER_SIZE and msg_type_id >= 0 and byte_cnt >= msg_data_len:
                 
