@@ -1,7 +1,8 @@
 # README for PcFcbTool.py
 
 ## Python installation
-* This tool was developed to run on a Windows 7 workstation.
+
+### For Windows:
 * General python installation:See Dragonfly-FCB Wiki page "ToolTipsTricks", section "Python" and follow installation instructions.
 * Open `cmd.exe`
 * Install library dependencies: `C:\INSTALLATION_PATH\python.exe -m pip install pyserial numpy protobuf pyside pyqtgraph`
@@ -9,12 +10,29 @@
 * Run `C:\INSTALLATION_PATH\python -m pip install pyside pyqtgraph`
 * now it should be possible to run `C:\INSTALLATION_PATH\python.exe PcFcbTool.py 100 60` in `cmd.exe`.
 
+NOTE: There has been some difficulties with the pyqtgraph plot window in Linux where axes are not showing correctly.
+
+### For Linux:
+sudo apt-get install python-dev
+sudo apt-get install python-pip
+sudo python -m pip install pyserial numpy protobuf pyside pyqtgraph
+sudo python -m pip install pyside pyqtgraph
+sudo python -m pip install crcmod
+
+Troubleshooting: Try to update the packages if they do not seem to be working correctly. Example:
+sudo python -m pip install pyserial --upgrade pyserial
+
+### Protobuf package
+You may get an earlier version causing "syntax variable" errors when installing the default package with pip.
+
+sudo pip install protobuf==3.0.0b2
+
 ## PcFcbTool usage
-* Connect the FCB to the Windows 7 PC using a micro USB cable, it is assumed that COM8 is the port.
+* Connect the FCB to the Windows 7 PC using a micro USB cable, it is assumed that "COM8" is the port.
 * run `python PcFcbTool.py 200 30` to receive a graph which is sampled every 200 ms for 30 seconds.
 * Close the graph window to exit the program.
 * use the `--help` option to get usage instructions
-* use the `--com N` to use COM port N for STM32 Virtual COM port.
+* use the `--com PORT` to use COM port PORT for STM32 Virtual COM port (e.g. "COM2" in Windows or "/dev/ttyACM0" in Linux.
 
 ## Developing PcFcbDisplayTool
 * In order to regenerate `dragonfly_fcb_pb2.py`:
