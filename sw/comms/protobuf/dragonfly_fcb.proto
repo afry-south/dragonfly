@@ -24,9 +24,9 @@ message MotorSignalValuesProto {
 
 // Sensor sample values
 message SensorSamplesProto {
-	optional float gyroAngRateXb = 1;
-	optional float gyroAngRateYb = 2;
-	optional float gyroAngRateZb = 3;
+	optional float gyroX = 1;
+	optional float gyroY = 2;
+	optional float gyroZ = 3;
 	optional float accX = 4;
 	optional float accY = 5;
 	optional float accZ = 6;
@@ -62,25 +62,30 @@ message PIDControlParamsProto {
 	optional float K_rollpitch = 7;
 	optional float Ti_rollpitch = 8;
 	optional float Td_rollpitch = 9;
-	optional float K_yawrate = 10;
-	optional float Ti_yawrate = 11;
-	optional float Td_yawrate = 12;
+	optional float K_yaw = 10;
+	optional float Ti_yaw = 11;
+	optional float Td_yaw = 12;
 }
 
 // Contains current control reference signal values
 message ControlReferenceSignalsProto {
-	optional float refVx = 1;
-	optional float refVy = 2;
-	optional float refVz = 3;
-	optional float refRoll = 4;
-	optional float refPitch = 5;
-	optional float refYaw = 6;
-	optional float refYawRate = 7;
+	optional float refPosX = 1;
+    optional float refPosY = 2;
+    optional float refPosZ = 3;
+	optional float refVelX = 4;
+	optional float refVelY = 5;
+	optional float refVelZ = 6;
+	optional float refRoll = 7;
+	optional float refPitch = 8;
+    optional float refYaw = 9;
+    optional float refRollRate = 10;
+    optional float refPitchRate = 11;	
+	optional float refYawRate = 12;
 }
 
 // Contains current control signal values
 message ControlSignalsProto {
-	optional uint32 flightState = 1;
+	optional uint32 ctrlState = 1; // e.g. enum value for "Manual", "PID", "Idle" etc.
 	optional float thrustCtrl = 2;
 	optional float rollCtrl = 3;
 	optional float pitchCtrl = 4;
