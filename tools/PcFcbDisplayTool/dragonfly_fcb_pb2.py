@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='dragonfly_fcb.proto',
   package='',
   syntax='proto2',
-  serialized_pb=_b('\n\x13\x64ragonfly_fcb.proto\"|\n\x19ReceiverSignalValuesProto\x12\x10\n\x08throttle\x18\x01 \x01(\x05\x12\x0f\n\x07\x61ileron\x18\x02 \x01(\x05\x12\x10\n\x08\x65levator\x18\x03 \x01(\x05\x12\x0e\n\x06rudder\x18\x04 \x01(\x05\x12\x0c\n\x04gear\x18\x05 \x01(\x05\x12\x0c\n\x04\x61ux1\x18\x06 \x01(\x05\"H\n\x16MotorSignalValuesProto\x12\n\n\x02M1\x18\x01 \x01(\x05\x12\n\n\x02M2\x18\x02 \x01(\x05\x12\n\n\x02M3\x18\x03 \x01(\x05\x12\n\n\x02M4\x18\x04 \x01(\x05\"\xad\x01\n\x12SensorSamplesProto\x12\x15\n\rgyroAngRateXb\x18\x01 \x01(\x02\x12\x15\n\rgyroAngRateYb\x18\x02 \x01(\x02\x12\x15\n\rgyroAngRateZb\x18\x03 \x01(\x02\x12\x0c\n\x04\x61\x63\x63X\x18\x04 \x01(\x02\x12\x0c\n\x04\x61\x63\x63Y\x18\x05 \x01(\x02\x12\x0c\n\x04\x61\x63\x63Z\x18\x06 \x01(\x02\x12\x0c\n\x04magX\x18\x07 \x01(\x02\x12\x0c\n\x04magY\x18\x08 \x01(\x02\x12\x0c\n\x04magZ\x18\t \x01(\x02\"\xd6\x01\n\x11\x46lightStatesProto\x12\x0c\n\x04posX\x18\x01 \x01(\x02\x12\x0c\n\x04posY\x18\x02 \x01(\x02\x12\x0c\n\x04posZ\x18\x03 \x01(\x02\x12\x0c\n\x04velX\x18\x04 \x01(\x02\x12\x0c\n\x04velY\x18\x05 \x01(\x02\x12\x0c\n\x04velZ\x18\x06 \x01(\x02\x12\x11\n\trollAngle\x18\x07 \x01(\x02\x12\x12\n\npitchAngle\x18\x08 \x01(\x02\x12\x10\n\x08yawAngle\x18\t \x01(\x02\x12\x10\n\x08rollRate\x18\n \x01(\x02\x12\x11\n\tpitchRate\x18\x0b \x01(\x02\x12\x0f\n\x07yawRate\x18\x0c \x01(\x02\"\xee\x01\n\x15PIDControlParamsProto\x12\r\n\x05K_vxy\x18\x01 \x01(\x02\x12\x0e\n\x06Ti_vxy\x18\x02 \x01(\x02\x12\x0e\n\x06Td_vxy\x18\x03 \x01(\x02\x12\x0c\n\x04K_vz\x18\x04 \x01(\x02\x12\r\n\x05Ti_vz\x18\x05 \x01(\x02\x12\r\n\x05Td_vz\x18\x06 \x01(\x02\x12\x13\n\x0bK_rollpitch\x18\x07 \x01(\x02\x12\x14\n\x0cTi_rollpitch\x18\x08 \x01(\x02\x12\x14\n\x0cTd_rollpitch\x18\t \x01(\x02\x12\x11\n\tK_yawrate\x18\n \x01(\x02\x12\x12\n\nTi_yawrate\x18\x0b \x01(\x02\x12\x12\n\nTd_yawrate\x18\x0c \x01(\x02\"\x92\x01\n\x1c\x43ontrolReferenceSignalsProto\x12\r\n\x05refVx\x18\x01 \x01(\x02\x12\r\n\x05refVy\x18\x02 \x01(\x02\x12\r\n\x05refVz\x18\x03 \x01(\x02\x12\x0f\n\x07refRoll\x18\x04 \x01(\x02\x12\x10\n\x08refPitch\x18\x05 \x01(\x02\x12\x0e\n\x06refYaw\x18\x06 \x01(\x02\x12\x12\n\nrefYawRate\x18\x07 \x01(\x02\"\xd3\x01\n\x14SimulatedStatesProto\x12\x0c\n\x04posX\x18\x01 \x01(\x02\x12\x0c\n\x04posY\x18\x02 \x01(\x02\x12\x0c\n\x04posZ\x18\x03 \x01(\x02\x12\x0c\n\x04velX\x18\x04 \x01(\x02\x12\x0c\n\x04velY\x18\x05 \x01(\x02\x12\x0c\n\x04velZ\x18\x06 \x01(\x02\x12\x0f\n\x07\x61ngRoll\x18\x07 \x01(\x02\x12\x10\n\x08\x61ngPitch\x18\x08 \x01(\x02\x12\x0e\n\x06\x61ngYaw\x18\t \x01(\x02\x12\x10\n\x08rateRoll\x18\n \x01(\x02\x12\x11\n\tratePitch\x18\x0b \x01(\x02\x12\x0f\n\x07rateYaw\x18\x0c \x01(\x02')
+  serialized_pb=_b('\n\x13\x64ragonfly_fcb.proto\"\x8f\x01\n\x19ReceiverSignalValuesProto\x12\x11\n\tis_active\x18\x01 \x01(\x08\x12\x10\n\x08throttle\x18\x02 \x01(\x05\x12\x0f\n\x07\x61ileron\x18\x03 \x01(\x05\x12\x10\n\x08\x65levator\x18\x04 \x01(\x05\x12\x0e\n\x06rudder\x18\x05 \x01(\x05\x12\x0c\n\x04gear\x18\x06 \x01(\x05\x12\x0c\n\x04\x61ux1\x18\x07 \x01(\x05\"H\n\x16MotorSignalValuesProto\x12\n\n\x02M1\x18\x01 \x01(\r\x12\n\n\x02M2\x18\x02 \x01(\r\x12\n\n\x02M3\x18\x03 \x01(\r\x12\n\n\x02M4\x18\x04 \x01(\r\"\xad\x01\n\x12SensorSamplesProto\x12\x15\n\rgyroAngRateXb\x18\x01 \x01(\x02\x12\x15\n\rgyroAngRateYb\x18\x02 \x01(\x02\x12\x15\n\rgyroAngRateZb\x18\x03 \x01(\x02\x12\x0c\n\x04\x61\x63\x63X\x18\x04 \x01(\x02\x12\x0c\n\x04\x61\x63\x63Y\x18\x05 \x01(\x02\x12\x0c\n\x04\x61\x63\x63Z\x18\x06 \x01(\x02\x12\x0c\n\x04magX\x18\x07 \x01(\x02\x12\x0c\n\x04magY\x18\x08 \x01(\x02\x12\x0c\n\x04magZ\x18\t \x01(\x02\"\xd6\x01\n\x11\x46lightStatesProto\x12\x0c\n\x04posX\x18\x01 \x01(\x02\x12\x0c\n\x04posY\x18\x02 \x01(\x02\x12\x0c\n\x04posZ\x18\x03 \x01(\x02\x12\x0c\n\x04velX\x18\x04 \x01(\x02\x12\x0c\n\x04velY\x18\x05 \x01(\x02\x12\x0c\n\x04velZ\x18\x06 \x01(\x02\x12\x11\n\trollAngle\x18\x07 \x01(\x02\x12\x12\n\npitchAngle\x18\x08 \x01(\x02\x12\x10\n\x08yawAngle\x18\t \x01(\x02\x12\x10\n\x08rollRate\x18\n \x01(\x02\x12\x11\n\tpitchRate\x18\x0b \x01(\x02\x12\x0f\n\x07yawRate\x18\x0c \x01(\x02\"\xee\x01\n\x15PIDControlParamsProto\x12\r\n\x05K_vxy\x18\x01 \x01(\x02\x12\x0e\n\x06Ti_vxy\x18\x02 \x01(\x02\x12\x0e\n\x06Td_vxy\x18\x03 \x01(\x02\x12\x0c\n\x04K_vz\x18\x04 \x01(\x02\x12\r\n\x05Ti_vz\x18\x05 \x01(\x02\x12\r\n\x05Td_vz\x18\x06 \x01(\x02\x12\x13\n\x0bK_rollpitch\x18\x07 \x01(\x02\x12\x14\n\x0cTi_rollpitch\x18\x08 \x01(\x02\x12\x14\n\x0cTd_rollpitch\x18\t \x01(\x02\x12\x11\n\tK_yawrate\x18\n \x01(\x02\x12\x12\n\nTi_yawrate\x18\x0b \x01(\x02\x12\x12\n\nTd_yawrate\x18\x0c \x01(\x02\"\x92\x01\n\x1c\x43ontrolReferenceSignalsProto\x12\r\n\x05refVx\x18\x01 \x01(\x02\x12\r\n\x05refVy\x18\x02 \x01(\x02\x12\r\n\x05refVz\x18\x03 \x01(\x02\x12\x0f\n\x07refRoll\x18\x04 \x01(\x02\x12\x10\n\x08refPitch\x18\x05 \x01(\x02\x12\x0e\n\x06refYaw\x18\x06 \x01(\x02\x12\x12\n\nrefYawRate\x18\x07 \x01(\x02\"t\n\x13\x43ontrolSignalsProto\x12\x13\n\x0b\x66lightState\x18\x01 \x01(\r\x12\x12\n\nthrustCtrl\x18\x02 \x01(\x02\x12\x10\n\x08rollCtrl\x18\x03 \x01(\x02\x12\x11\n\tpitchCtrl\x18\x04 \x01(\x02\x12\x0f\n\x07yawCtrl\x18\x05 \x01(\x02\"\xd3\x01\n\x14SimulatedStatesProto\x12\x0c\n\x04posX\x18\x01 \x01(\x02\x12\x0c\n\x04posY\x18\x02 \x01(\x02\x12\x0c\n\x04posZ\x18\x03 \x01(\x02\x12\x0c\n\x04velX\x18\x04 \x01(\x02\x12\x0c\n\x04velY\x18\x05 \x01(\x02\x12\x0c\n\x04velZ\x18\x06 \x01(\x02\x12\x0f\n\x07\x61ngRoll\x18\x07 \x01(\x02\x12\x10\n\x08\x61ngPitch\x18\x08 \x01(\x02\x12\x0e\n\x06\x61ngYaw\x18\t \x01(\x02\x12\x10\n\x08rateRoll\x18\n \x01(\x02\x12\x11\n\tratePitch\x18\x0b \x01(\x02\x12\x0f\n\x07rateYaw\x18\x0c \x01(\x02')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -34,43 +34,50 @@ _RECEIVERSIGNALVALUESPROTO = _descriptor.Descriptor(
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='throttle', full_name='ReceiverSignalValuesProto.throttle', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      name='is_active', full_name='ReceiverSignalValuesProto.is_active', index=0,
+      number=1, type=8, cpp_type=7, label=1,
+      has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='aileron', full_name='ReceiverSignalValuesProto.aileron', index=1,
+      name='throttle', full_name='ReceiverSignalValuesProto.throttle', index=1,
       number=2, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='elevator', full_name='ReceiverSignalValuesProto.elevator', index=2,
+      name='aileron', full_name='ReceiverSignalValuesProto.aileron', index=2,
       number=3, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='rudder', full_name='ReceiverSignalValuesProto.rudder', index=3,
+      name='elevator', full_name='ReceiverSignalValuesProto.elevator', index=3,
       number=4, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='gear', full_name='ReceiverSignalValuesProto.gear', index=4,
+      name='rudder', full_name='ReceiverSignalValuesProto.rudder', index=4,
       number=5, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
-      name='aux1', full_name='ReceiverSignalValuesProto.aux1', index=5,
+      name='gear', full_name='ReceiverSignalValuesProto.gear', index=5,
       number=6, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='aux1', full_name='ReceiverSignalValuesProto.aux1', index=6,
+      number=7, type=5, cpp_type=1, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -87,8 +94,8 @@ _RECEIVERSIGNALVALUESPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=23,
-  serialized_end=147,
+  serialized_start=24,
+  serialized_end=167,
 )
 
 
@@ -101,28 +108,28 @@ _MOTORSIGNALVALUESPROTO = _descriptor.Descriptor(
   fields=[
     _descriptor.FieldDescriptor(
       name='M1', full_name='MotorSignalValuesProto.M1', index=0,
-      number=1, type=5, cpp_type=1, label=1,
+      number=1, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
       name='M2', full_name='MotorSignalValuesProto.M2', index=1,
-      number=2, type=5, cpp_type=1, label=1,
+      number=2, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
       name='M3', full_name='MotorSignalValuesProto.M3', index=2,
-      number=3, type=5, cpp_type=1, label=1,
+      number=3, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       options=None),
     _descriptor.FieldDescriptor(
       name='M4', full_name='MotorSignalValuesProto.M4', index=3,
-      number=4, type=5, cpp_type=1, label=1,
+      number=4, type=13, cpp_type=3, label=1,
       has_default_value=False, default_value=0,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
@@ -139,8 +146,8 @@ _MOTORSIGNALVALUESPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=149,
-  serialized_end=221,
+  serialized_start=169,
+  serialized_end=241,
 )
 
 
@@ -226,8 +233,8 @@ _SENSORSAMPLESPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=224,
-  serialized_end=397,
+  serialized_start=244,
+  serialized_end=417,
 )
 
 
@@ -334,8 +341,8 @@ _FLIGHTSTATESPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=400,
-  serialized_end=614,
+  serialized_start=420,
+  serialized_end=634,
 )
 
 
@@ -442,8 +449,8 @@ _PIDCONTROLPARAMSPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=617,
-  serialized_end=855,
+  serialized_start=637,
+  serialized_end=875,
 )
 
 
@@ -515,8 +522,67 @@ _CONTROLREFERENCESIGNALSPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=858,
-  serialized_end=1004,
+  serialized_start=878,
+  serialized_end=1024,
+)
+
+
+_CONTROLSIGNALSPROTO = _descriptor.Descriptor(
+  name='ControlSignalsProto',
+  full_name='ControlSignalsProto',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='flightState', full_name='ControlSignalsProto.flightState', index=0,
+      number=1, type=13, cpp_type=3, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='thrustCtrl', full_name='ControlSignalsProto.thrustCtrl', index=1,
+      number=2, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='rollCtrl', full_name='ControlSignalsProto.rollCtrl', index=2,
+      number=3, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='pitchCtrl', full_name='ControlSignalsProto.pitchCtrl', index=3,
+      number=4, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='yawCtrl', full_name='ControlSignalsProto.yawCtrl', index=4,
+      number=5, type=2, cpp_type=6, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto2',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=1026,
+  serialized_end=1142,
 )
 
 
@@ -623,8 +689,8 @@ _SIMULATEDSTATESPROTO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=1007,
-  serialized_end=1218,
+  serialized_start=1145,
+  serialized_end=1356,
 )
 
 DESCRIPTOR.message_types_by_name['ReceiverSignalValuesProto'] = _RECEIVERSIGNALVALUESPROTO
@@ -633,6 +699,7 @@ DESCRIPTOR.message_types_by_name['SensorSamplesProto'] = _SENSORSAMPLESPROTO
 DESCRIPTOR.message_types_by_name['FlightStatesProto'] = _FLIGHTSTATESPROTO
 DESCRIPTOR.message_types_by_name['PIDControlParamsProto'] = _PIDCONTROLPARAMSPROTO
 DESCRIPTOR.message_types_by_name['ControlReferenceSignalsProto'] = _CONTROLREFERENCESIGNALSPROTO
+DESCRIPTOR.message_types_by_name['ControlSignalsProto'] = _CONTROLSIGNALSPROTO
 DESCRIPTOR.message_types_by_name['SimulatedStatesProto'] = _SIMULATEDSTATESPROTO
 
 ReceiverSignalValuesProto = _reflection.GeneratedProtocolMessageType('ReceiverSignalValuesProto', (_message.Message,), dict(
@@ -676,6 +743,13 @@ ControlReferenceSignalsProto = _reflection.GeneratedProtocolMessageType('Control
   # @@protoc_insertion_point(class_scope:ControlReferenceSignalsProto)
   ))
 _sym_db.RegisterMessage(ControlReferenceSignalsProto)
+
+ControlSignalsProto = _reflection.GeneratedProtocolMessageType('ControlSignalsProto', (_message.Message,), dict(
+  DESCRIPTOR = _CONTROLSIGNALSPROTO,
+  __module__ = 'dragonfly_fcb_pb2'
+  # @@protoc_insertion_point(class_scope:ControlSignalsProto)
+  ))
+_sym_db.RegisterMessage(ControlSignalsProto)
 
 SimulatedStatesProto = _reflection.GeneratedProtocolMessageType('SimulatedStatesProto', (_message.Message,), dict(
   DESCRIPTOR = _SIMULATEDSTATESPROTO,

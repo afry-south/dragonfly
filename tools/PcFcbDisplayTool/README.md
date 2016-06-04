@@ -37,4 +37,4 @@ sudo pip install protobuf==3.0.0b2
 ## Developing PcFcbDisplayTool
 * In order to regenerate `dragonfly_fcb_pb2.py`:
  * Download `protoc-3.0.0-beta-2-win32.zip` from: https://github.com/google/protobuf/releases extract `protoc.exe` and make sure it is in the `Path` of `cmd.exe`
- * Then run: `protoc --plugin=generator\protoc-gen-nanopb.bat --proto_path=REPO_PATH\fcb-source\communication\protobuf\ REPO_PATH\fcb-source\communication\protobuf\dragonfly_fcb.proto  --python_out=REPO_PATH\Tools\fcb-tools\PcFcbDisplayTool
+ * Then run: `protoc --plugin=generator\protoc-gen-nanopb.bat --proto_path=REPO_PATH\sw\comms\protobuf\ REPO_PATH\sw\comms\protobuf\dragonfly_fcb.proto  --python_out=REPO_PATH\tools\PcFcbDisplayTool´

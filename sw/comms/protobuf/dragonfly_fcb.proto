@@ -16,10 +16,10 @@ message ReceiverSignalValuesProto {
 
 // Motor signal values normalized to [0, 65535]
 message MotorSignalValuesProto {
-	optional int32 M1 = 1;
-	optional int32 M2 = 2;
-	optional int32 M3 = 3;
-	optional int32 M4 = 4;
+	optional uint32 M1 = 1;
+	optional uint32 M2 = 2;
+	optional uint32 M3 = 3;
+	optional uint32 M4 = 4;
 }
 
 // Sensor sample values
@@ -76,6 +76,15 @@ message ControlReferenceSignalsProto {
 	optional float refPitch = 5;
 	optional float refYaw = 6;
 	optional float refYawRate = 7;
+}
+
+// Contains current control signal values
+message ControlSignalsProto {
+	optional uint32 flightState = 1;
+	optional float thrustCtrl = 2;
+	optional float rollCtrl = 3;
+	optional float pitchCtrl = 4;
+	optional float yawCtrl = 5;
 }
 
 // Simulated states supposed to be sent from simulator to Flight Control Board and used to drive the control algorithms
