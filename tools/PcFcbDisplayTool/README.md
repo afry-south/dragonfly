@@ -1,4 +1,7 @@
-# README for PcFcbTool.py
+# README for PcFcbDisplayTool.py
+
+PcFcbDisplayTool developed by ÅF 
+Copyright (C) 2016  ÅF Technology South: Dragonfly Project
 
 ## Python installation
 
@@ -10,7 +13,7 @@
 * Run `C:\INSTALLATION_PATH\python -m pip install pyside pyqtgraph`
 * now it should be possible to run `C:\INSTALLATION_PATH\python.exe PcFcbTool.py 100 60` in `cmd.exe`.
 
-NOTE: There has been some difficulties with the pyqtgraph plot window in Linux where axes are not showing correctly.
+NOTE: There has been some difficulties with the pyqtgraph plot window in Windows where axes are not showing correctly.
 
 ### For Linux:
 * `sudo apt-get install python-dev python-pip`
@@ -34,4 +37,6 @@ sudo pip install protobuf==3.0.0b2
 ## Developing PcFcbDisplayTool
 * In order to regenerate `dragonfly_fcb_pb2.py`:
  * Download `protoc-3.0.0-beta-2-win32.zip` from: https://github.com/google/protobuf/releases extract `protoc.exe` and make sure it is in the `Path` of `cmd.exe`
- * Then run: `protoc --plugin=generator\protoc-gen-nanopb.bat --proto_path=REPO_PATH\fcb-source\communication\protobuf\ REPO_PATH\fcb-source\communication\protobuf\dragonfly_fcb.proto  --python_out=REPO_PATH\Tools\fcb-tools\PcFcbDisplayTool
+ * Then run: `protoc --plugin=generator\protoc-gen-nanopb.bat --proto_path=REPO_PATH\sw\comms\protobuf\ REPO_PATH\sw\comms\protobuf\dragonfly_fcb.proto  --python_out=REPO_PATH\tools\PcFcbDisplayTool´
+ 
+ protoc --plugin=generator\protoc-gen-nanopb.bat --proto_path=C:\Users\A501632\workspace\dragonfly\sw\comms\protobuf\ C:\Users\A501632\workspace\dragonfly\sw\comms\protobuf\dragonfly_fcb.proto  --python_out=C:\Users\A501632\workspace\dragonfly\tools\PcFcbDisplayTool
