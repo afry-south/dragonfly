@@ -50,6 +50,8 @@ do_exit = False;
 rc_sema = threading.Condition()
 motors_sema = threading.Condition()
 states_sema = threading.Condition()
+refs_sema = threading.Condition()
+ctrl_sema = threading.Condition()
 
 NBR_DISPLAYED_SAMPLES = 100
 
@@ -84,6 +86,22 @@ yawrate_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES) # append & pop from oppos
 states_time_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
 
 RAD_TO_DEG_FACTOR = 180/math.pi
+
+# REFERENCE SIGNALS DATA
+rollref_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
+pitchref_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
+yawref_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
+yawrateref_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
+
+ref_time_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
+
+# CONTROL SIGNALS DATA
+ctrlthrust_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
+ctrlroll_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
+ctrlpitch_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
+ctrlyaw_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
+
+ctrl_time_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
 
 start_time = timeit.default_timer()
 
@@ -145,6 +163,42 @@ def update_states_plot_data(new_roll_data, new_pitch_data, new_yaw_data, new_rol
     
     states_sema.notify() # notify plot that data is available
     states_sema.release() # TODO use in plotStatesUpdate()
+    
+def update_ref_plot_data(new_rollref_data, new_pitchref_data, new_yawref_data, new_yawrateref_data):
+    refs_sema.acquire(blocking = 1)
+    
+    rollref_data.append(new_rollref_data*RAD_TO_DEG_FACTOR)
+    datatoplot = rollref_data.popleft()
+    pitchref_data.append(new_pitchref_data*RAD_TO_DEG_FACTOR)
+    datatoplot = pitchref_data.popleft()  
+    yawref_data.append(new_yawref_data*RAD_TO_DEG_FACTOR)
+    datatoplot = yawref_data.popleft()
+    yawrateref_data.append(new_yawrateref_data*RAD_TO_DEG_FACTOR)
+    datatoplot = yawrateref_data.popleft()
+    
+    ref_time_data.append(timeit.default_timer()-start_time)
+    datatoplot = ref_time_data.popleft()
+    
+    refs_sema.notify() # notify plot that data is available
+    refs_sema.release() # TODO use in plotStatesUpdate()
+    
+def update_ctrl_plot_data(new_thrustctrl_data, new_rollctrl_data, new_pitchctrl_data, new_yawctrl_data):
+    ctrl_sema.acquire(blocking = 1)
+    
+    ctrlthrust_data.append(new_thrustctrl_data)
+    datatoplot = ctrlthrust_data.popleft()
+    ctrlroll_data.append(new_rollctrl_data)
+    datatoplot = ctrlroll_data.popleft()  
+    ctrlpitch_data.append(new_pitchctrl_data)
+    datatoplot = ctrlpitch_data.popleft()
+    ctrlyaw_data.append(new_yawctrl_data)
+    datatoplot = ctrlyaw_data.popleft()
+    
+    ctrl_time_data.append(timeit.default_timer()-start_time)
+    datatoplot = ctrl_time_data.popleft()
+    
+    ctrl_sema.notify() # notify plot that data is available
+    ctrl_sema.release() # TODO use in plotStatesUpdate()
 
 # handy tip, type: python -m serial.tools.list_ports
 # to list available COM ports at the terminal.
@@ -159,7 +213,7 @@ def comReader(duration_s):
     # sensor = dragonfly_fcb_pb2.SensorSamplesProto()
     state = dragonfly_fcb_pb2.FlightStatesProto()
     refsignals = dragonfly_fcb_pb2.ControlReferenceSignalsProto()
-    #ctrlsignals = dragonfly_fcb_pb2.ControlSignalsProto()
+    ctrlsignals = dragonfly_fcb_pb2.ControlSignalsProto()
     
     i = 0;
     
@@ -229,31 +283,30 @@ def comReader(duration_s):
         time.sleep(0.002)
         
         # Get reference signal values
-        #try:
-            #fcb_serial.write("get-ref-signals p\r")
-            #msg_sent = True
-            #msg_cnt += 1
-        #except serial.SerialTimeoutException as ste:
-            #fcb_serial.close()
-            #pprint(ste.__str__())
-            #quit()
+        try:
+            fcb_serial.write("get-ref-signals p\r")
+            msg_sent = True
+            msg_cnt += 1
+        except serial.SerialTimeoutException as ste:
+            fcb_serial.close()
+            pprint(ste.__str__())
+            quit()
             
-        #time.sleep(0.001)
+        time.sleep(0.002)
         
         # Get control signal values
-        #try:
-            #fcb_serial.write("get-ctrl-signals p\r")
-            #msg_sent = True
-            #msg_cnt += 1
-        #except serial.SerialTimeoutException as ste:
-            #fcb_serial.close()
-            #pprint(ste.__str__())
-            #quit()
+        try:
+            fcb_serial.write("get-ctrl-signals p\r")
+            msg_sent = True
+            msg_cnt += 1
+        except serial.SerialTimeoutException as ste:
+            fcb_serial.close()
+            pprint(ste.__str__())
+            quit()
             
-        #time.sleep(0.001)
+        time.sleep(0.001)
         
 # TODO real CRC Check
-# TODO check msgID, CRC and length are digits after string conversion
 
 # TODO get max proto message sizes for each message from nanopb-generated proto (copy-paste them here)
 # Use regex / parsing from C header to get these dynamically?
@@ -337,17 +390,17 @@ def comReader(duration_s):
                         fcb_serial.reset_input_buffer() # Flush input
                         continue
 
-                    #update_ref_plot_data(refsignals.roll, refsignals.pitch, refsignals.yawrate)
+                    update_ref_plot_data(refsignals.refRoll, refsignals.refPitch, refsignals.refYaw, refsignals.refYawRate)
                     
-                #elif msg_type_id    == CTRLSIGNAL_MSG_ID:
-                    #try:
-                        #ctrlsignals.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
-                    #except google.protobuf.message.DecodeError as de:
-                        #pprint("Ref signal sample %d discarded: %s" % (i, de.__str__()))
-                        #fcb_serial.reset_input_buffer() # Flush input
-                        #continue
+                elif msg_type_id    == CTRLSIGNAL_MSG_ID:
+                    try:
+                        ctrlsignals.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
+                    except google.protobuf.message.DecodeError as de:
+                        pprint("Ref signal sample %d discarded: %s" % (i, de.__str__()))
+                        fcb_serial.reset_input_buffer() # Flush input
+                        continue
 
-                    #update_ctrl_plot_data(ctrlsignals.Thrust, ctrlsignals.RollMom, ctrlsignals.PitchMom, ctrlsignals.YawMom)
+                    update_ctrl_plot_data(ctrlsignals.thrustCtrl, ctrlsignals.rollCtrl, ctrlsignals.pitchCtrl, ctrlsignals.yawCtrl)
             else:
                 pprint("%s received: %s", comReader.__name__, byte_buffer)
                 fcb_serial.reset_input_buffer() # Flush input
@@ -409,6 +462,28 @@ rcrudd_curve = rc_plot.plot(pen='y', name='Rudder')
 rc_plot.showGrid(x=True, y=True)
 rc_plot.setYRange(-180, 180)
 
+win.nextRow()
+
+ref_plot = win.addPlot()
+ref_plot.setLabel('bottom', "Time [s]")
+ref_plot.setLabel('left', "Reference signals [deg, deg/s]")
+rollref_curve = ref_plot.plot(pen='r', name='Roll ref')
+pitchref_curve = ref_plot.plot(pen='g', name='Pitch ref')
+yawref_curve = ref_plot.plot(pen='b', name='Yaw ref')
+yawrateref_curve = ref_plot.plot(pen='y', name='Yaw rate ref')
+ref_plot.showGrid(x=True, y=True)
+ref_plot.setYRange(-180, 180)
+
+ctrl_plot = win.addPlot()
+ctrl_plot.setLabel('bottom', "Time [s]")
+ctrl_plot.setLabel('left', "Control signals [N, Nm]")
+ctrlthrust_curve = ctrl_plot.plot(pen='r', name='Thrust force')
+ctrlroll_curve = ctrl_plot.plot(pen='g', name='Roll moment')
+ctrlpitch_curve = ctrl_plot.plot(pen='b', name='Pitch moment')
+ctrlyaw_curve = ctrl_plot.plot(pen='y', name='Yaw moment')
+ctrl_plot.showGrid(x=True, y=True)
+ctrl_plot.setYRange(-50, 50)
+
 
 def plotUpdate():
     
@@ -416,7 +491,8 @@ def plotUpdate():
     plotMotorsUpdate()
     #plotSensorsUpdate()
     plotStatesUpdate()
-    #plotRefsignalsUpdate()
+    plotRefSignalsUpdate()
+    plotCtrlSignalsUpdate()
 
 def plotRCUpdate():
     global ptr, rc_plot
@@ -425,9 +501,25 @@ def plotRCUpdate():
     rcaile_curve.setData(rc_time_data, rcaile_data)
     rcelev_curve.setData(rc_time_data, rcelev_data)
     rcrudd_curve.setData(rc_time_data, rcrudd_data)
+    
+def plotRefSignalsUpdate():
+    global ptr, ref_plot
+
+    rollref_curve.setData(ref_time_data, rollref_data)
+    pitchref_curve.setData(ref_time_data, pitchref_data)
+    yawref_curve.setData(ref_time_data, yawref_data)
+    yawrateref_curve.setData(ref_time_data, yawrateref_data)
+
+def plotCtrlSignalsUpdate():
+    global ptr, ctrl_plot
+
+    ctrlthrust_curve.setData(ctrl_time_data, ctrlthrust_data)
+    ctrlroll_curve.setData(ctrl_time_data, ctrlroll_data)
+    ctrlpitch_curve.setData(ctrl_time_data, ctrlpitch_data)
+    ctrlyaw_curve.setData(ctrl_time_data, ctrlyaw_data)
 
 def plotMotorsUpdate():
-    global ptr, m1_plot, m2_plot, m3_plot, m4_plot
+    global ptr, motor_plot
 
     m1_curve.setData(motors_time_data, m1_data)
     m2_curve.setData(motors_time_data, m2_data)
