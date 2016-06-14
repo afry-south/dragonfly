@@ -55,6 +55,8 @@ ctrl_sema = threading.Condition()
 
 NBR_DISPLAYED_SAMPLES = 100
 
+DATA_HEADER_SIZE = 7 # Will be 7: 1 byte ID, 4 bytes CRC, 2 bytes msg length
+
 # RC DATA
 rcthro_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
 rcaile_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
@@ -104,6 +106,8 @@ ctrlyaw_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
 ctrl_time_data = deque([float(0)]*NBR_DISPLAYED_SAMPLES)
 
 start_time = timeit.default_timer()
+
+logfile = open('logfile', 'w')
 
 def update_rc_plot_data(new_thro, new_aile, new_elev, new_rudd):
     rc_sema.acquire(blocking = 1)
@@ -200,26 +204,7 @@ def update_ctrl_plot_data(new_thrustctrl_data, new_rollctrl_data, new_pitchctrl_
     ctrl_sema.notify() # notify plot that data is available
     ctrl_sema.release() # TODO use in plotStatesUpdate()
 
-# handy tip, type: python -m serial.tools.list_ports
-# to list available COM ports at the terminal.
-
-def comReader(duration_s):
-    global do_exit
-    pprint("%s starting" % comReader.__name__)
-    dprint("comReader is executing in: " + threading.currentThread().name)
-    
-    rc = dragonfly_fcb_pb2.ReceiverSignalValuesProto()
-    motor = dragonfly_fcb_pb2.MotorSignalValuesProto()
-    # sensor = dragonfly_fcb_pb2.SensorSamplesProto()
-    state = dragonfly_fcb_pb2.FlightStatesProto()
-    refsignals = dragonfly_fcb_pb2.ControlReferenceSignalsProto()
-    ctrlsignals = dragonfly_fcb_pb2.ControlSignalsProto()
-    
-    i = 0;
-    
-    byte_buffer = bytearray()
-    DATA_HEADER_SIZE = 7 # Will be 7: 1 byte ID, 4 bytes CRC, 2 bytes msg length
-    
+def parse_received_data(msg_type_id, msg_data_len, byte_buffer):
     ERROR_MSG_ID = 0
     RC_MSG_ID = 1
     MOTOR_MSG_ID = 2
@@ -227,7 +212,132 @@ def comReader(duration_s):
     STATES_MSG_ID = 4
     REFSIGNAL_MSG_ID = 6
     CTRLSIGNAL_MSG_ID = 8
+
+    rc = dragonfly_fcb_pb2.ReceiverSignalValuesProto()
+    motor = dragonfly_fcb_pb2.MotorSignalValuesProto()
+    # sensor = dragonfly_fcb_pb2.SensorSamplesProto()
+    state = dragonfly_fcb_pb2.FlightStatesProto()
+    refsignals = dragonfly_fcb_pb2.ControlReferenceSignalsProto()
+    ctrlsignals = dragonfly_fcb_pb2.ControlSignalsProto()
+
+    if msg_type_id      == MOTOR_MSG_ID:
+        try:
+    	    motor.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
+        except google.protobuf.message.DecodeError as de:
+            pprint("motors sample discarded: %s" % (de.__str__()))
+            fcb_serial.reset_input_buffer() # Flush input
+            #continue
+        
+        update_motor_plot_data(motor.M1, motor.M2, motor.M3, motor.M4)
+        logfile.write('{0}, {1}, {2}, {3}, '.format(motor.M1, motor.M2, motor.M3, motor.M4))
+    elif msg_type_id    == STATES_MSG_ID:
+        try:
+            state.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
+        except google.protobuf.message.DecodeError as de:
+            pprint("states sample discarded: %s" % (de.__str__()))
+            fcb_serial.reset_input_buffer() # Flush input
+
+        update_states_plot_data(state.rollAngle, state.pitchAngle, state.yawAngle, state.rollRate, state.pitchRate, state.yawRate)
+        logfile.write('{0}, {1}, {2}, {3}, {4}, {5}, '.format(state.rollAngle, state.pitchAngle, state.yawAngle, state.rollRate, state.pitchRate, state.yawRate))
+    elif msg_type_id    == RC_MSG_ID:
+        try:
+            rc.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
+        except google.protobuf.message.DecodeError as de:
+            pprint("RC sample discarded: %s" % (de.__str__()))
+            fcb_serial.reset_input_buffer() # Flush input
+            #continue
+
+        update_rc_plot_data(rc.throttle, rc.aileron, rc.elevator, rc.rudder)
+        logfile.write('{0}, {1}, {2}, {3}, '.format(rc.throttle, rc.aileron, rc.elevator, rc.rudder))
+        
+    elif msg_type_id    == REFSIGNAL_MSG_ID:
+        try:
+            refsignals.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
+        except google.protobuf.message.DecodeError as de:
+            pprint("Ref signal sample discarded: %s" % (de.__str__()))
+            fcb_serial.reset_input_buffer() # Flush input
+            #continue
+
+        update_ref_plot_data(refsignals.refRoll, refsignals.refPitch, refsignals.refYaw, refsignals.refYawRate)
+        logfile.write('{0}, {1}, {2}, {3}, '.format(refsignals.refRoll, refsignals.refPitch, refsignals.refYaw, refsignals.refYawRate))
+        
+    elif msg_type_id    == CTRLSIGNAL_MSG_ID:
+        try:
+            ctrlsignals.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
+        except google.protobuf.message.DecodeError as de:
+            pprint("Ctrl signal sample discarded: %s" % (de.__str__()))
+            fcb_serial.reset_input_buffer() # Flush input
+            #continue
+
+        update_ctrl_plot_data(ctrlsignals.thrustCtrl, ctrlsignals.rollCtrl, ctrlsignals.pitchCtrl, ctrlsignals.yawCtrl)
+        logfile.write('{0}, {1}, {2}, {3}\n'.format(ctrlsignals.thrustCtrl, ctrlsignals.rollCtrl, ctrlsignals.pitchCtrl, ctrlsignals.yawCtrl))
+
+def receive_data(last_send_time):
+    byte_buffer = bytearray()
+    byte_cnt = 0
+    data = ""
+    msg_type_id = -1
+    msg_data_len = -1 # Holds data payload byte length
+    msg_data_crc = -1
+
+    # header + payload + 2 bytes msg end chars \n\r, TODO check for valid size and msg id
+    while ((byte_cnt < msg_data_len+DATA_HEADER_SIZE+2 and msg_data_len > 0) or (msg_data_len < 0)): # and data != '\r')):
+        new_time = timeit.default_timer()
+        if(new_time >= last_send_time + cli_args.interval_ms/1000.0):
+            pprint("Read timeout, flushing buffer.  Received nbr of bytes %d", byte_cnt)
+            fcb_serial.reset_input_buffer() # Flush input if timed out
+            break
+        try:
+            data = fcb_serial.read(1);
+        except serial.SerialException as se:
+            pprint("serial.SerialException: %s" % (se.__str__()))
+            do_exit = True
+            break
+        if data != "":
+            byte_buffer.append(data[0])
+            byte_cnt += 1
+            #line += str(data)
+            if byte_cnt == DATA_HEADER_SIZE:
+                msg_type_id = byte_buffer[0]
+                msg_data_crc = byte_buffer[1:5]
+                msg_data_len = byte_buffer[6]*256 + byte_buffer[5]
+        else:
+            pprint("No datat received")
+
+    return msg_type_id, msg_data_len, msg_data_crc, byte_buffer, byte_cnt
+
+
+def handle_received_message(last_send_time):
+    #last_send_time = timeit.default_timer()
+    #time.sleep(0.005)
+
+    msg_type_id, msg_data_len, msg_data_crc, byte_buffer, byte_cnt = receive_data(last_send_time)
+
+    if byte_cnt > DATA_HEADER_SIZE and msg_type_id >= 0 and byte_cnt >= msg_data_len:
+        parse_received_data(msg_type_id, msg_data_len, byte_buffer)
+    else:
+        pprint("%s received: %s", comReader.__name__, byte_buffer)
+
+        for x in range(0, byte_cnt):
+            pprint("%d, ", byte_buffer[x])
+
+        fcb_serial.reset_input_buffer() # Flush input
+
+
+# handy tip, type: python -m serial.tools.list_ports
+# to list available COM ports at the terminal.
+
+def comReader(duration_s):
+    global do_exit
+    pprint("%s starting" % comReader.__name__)
+    dprint("comReader is executing in: " + threading.currentThread().name)
+
+    logfile.write('motor1, motor2, motor3, motor4, throttle, aileron, elevator, rudder, rollAngle, pitchAngle, yawAngle, rollRate, pitchRate, yawRate, refRoll, refPitch, refYaw, refYawRate, thrustCtrl, rollCtrl, pitchCtrl, yawCtrl\n')
+       
+    i = 0;
     
+    byte_buffer = bytearray()
+        
     last_send_time = start_time
     end_time = start_time + duration_s
     now_time = 0
@@ -252,7 +362,8 @@ def comReader(duration_s):
             fcb_serial.close()
             pprint(ste.__str__())
             quit()
-            
+        
+        #handle_received_message()    
         time.sleep(0.002)
         
         # Get RC values
@@ -265,9 +376,7 @@ def comReader(duration_s):
             pprint(ste.__str__())
             quit()
             
-        if msg_sent:
-            last_send_time = timeit.default_timer()
-
+        #handle_received_message()    
         time.sleep(0.002)
             
         # Get state values
@@ -280,6 +389,7 @@ def comReader(duration_s):
             pprint(ste.__str__())
             quit()
         
+        #handle_received_message()    
         time.sleep(0.002)
         
         # Get reference signal values
@@ -292,6 +402,7 @@ def comReader(duration_s):
             pprint(ste.__str__())
             quit()
             
+        #handle_received_message()    
         time.sleep(0.002)
         
         # Get control signal values
@@ -304,6 +415,10 @@ def comReader(duration_s):
             pprint(ste.__str__())
             quit()
             
+        #handle_received_message()    
+        if msg_sent:
+            last_send_time = timeit.default_timer()
+
         time.sleep(0.001)
         
 # TODO real CRC Check
@@ -312,103 +427,25 @@ def comReader(duration_s):
 # Use regex / parsing from C header to get these dynamically?
 
         while msg_cnt > 0:
-            del byte_buffer[:] # Reset the buffer
-            byte_cnt = 0
-            data = ""
-            msg_type_id = -1
-            msg_data_len = -1 # Holds data payload byte length
-            msg_data_crc = -1
+            handle_received_message(last_send_time)
+            #msg_type_id, msg_data_len, msg_data_crc, byte_buffer, byte_cnt = receive_data(last_send_time)
             
-            # header + payload + 2 bytes msg end chars \n\r, TODO check for valid size and msg id
-            while ((byte_cnt < msg_data_len+DATA_HEADER_SIZE+2 and msg_data_len > 0) or (msg_data_len < 0 and data != '\r')):
-                new_time = timeit.default_timer()
-                if(new_time >= last_send_time + cli_args.interval_ms/1000.0):
-                    print("Read timeout, flushing buffer")
-                    fcb_serial.reset_input_buffer() # Flush input if timed out
-                    break
-                try:
-                    data = fcb_serial.read(1);
-                except serial.SerialException as se:
-                    pprint("serial.SerialException: %s" % (se.__str__()))
-                    do_exit = True
-                    break
-                if data != "":
-                    byte_buffer.append(data[0])
-                    byte_cnt += 1
-                    #line += str(data)
-                    if byte_cnt == DATA_HEADER_SIZE:
-                        msg_type_id = byte_buffer[0]
-                        msg_data_crc = byte_buffer[1:5]
-                        msg_data_len = byte_buffer[6]*256 + byte_buffer[5]
-            
-            if do_exit:
-                break
-            
-            i += 1;
-            
-            #if debug_print:
-                #print("Message ID: " + str(msg_type_id))
-                #print("CRC: " + str(msg_data_crc))
-                #print("Payload size: " + str(msg_data_len))
-                #print("Total bytes read: " + str(byte_cnt))
-                #print("")
-            
-            if byte_cnt > DATA_HEADER_SIZE and msg_type_id >= 0 and byte_cnt >= msg_data_len:
-                
-                if msg_type_id      == MOTOR_MSG_ID:
-                    try:
-                        motor.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
-                    except google.protobuf.message.DecodeError as de:
-                        pprint("motors sample %d discarded: %s" % (i, de.__str__()))
-                        fcb_serial.reset_input_buffer() # Flush input
-                        continue
-                    
-                    update_motor_plot_data(motor.M1, motor.M2, motor.M3, motor.M4)
-                elif msg_type_id    == STATES_MSG_ID:
-                    try:
-                        state.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
-                    except google.protobuf.message.DecodeError as de:
-                        pprint("states sample %d discarded: %s" % (i, de.__str__()))
-                        fcb_serial.reset_input_buffer() # Flush input
+            #if byte_cnt > DATA_HEADER_SIZE and msg_type_id >= 0 and byte_cnt >= msg_data_len:
+            #    parse_received_data(msg_type_id, msg_data_len, byte_buffer)
+            #else:
+            #    pprint("%s received: %s", comReader.__name__, byte_buffer)
 
-                    update_states_plot_data(state.rollAngle, state.pitchAngle, state.yawAngle, state.rollRate, state.pitchRate, state.yawRate)
-                elif msg_type_id    == RC_MSG_ID:
-                    try:
-                        rc.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
-                    except google.protobuf.message.DecodeError as de:
-                        pprint("RC sample %d discarded: %s" % (i, de.__str__()))
-                        fcb_serial.reset_input_buffer() # Flush input
-                        continue
+            #    for x in range(0, byte_cnt):
+            #        pprint("%d, ", byte_buffer[x])
 
-                    update_rc_plot_data(rc.throttle, rc.aileron, rc.elevator, rc.rudder)
-                    
-                elif msg_type_id    == REFSIGNAL_MSG_ID:
-                    try:
-                        refsignals.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
-                    except google.protobuf.message.DecodeError as de:
-                        pprint("Ref signal sample %d discarded: %s" % (i, de.__str__()))
-                        fcb_serial.reset_input_buffer() # Flush input
-                        continue
-
-                    update_ref_plot_data(refsignals.refRoll, refsignals.refPitch, refsignals.refYaw, refsignals.refYawRate)
-                    
-                elif msg_type_id    == CTRLSIGNAL_MSG_ID:
-                    try:
-                        ctrlsignals.ParseFromString(str(byte_buffer[DATA_HEADER_SIZE : DATA_HEADER_SIZE+msg_data_len]))
-                    except google.protobuf.message.DecodeError as de:
-                        pprint("Ref signal sample %d discarded: %s" % (i, de.__str__()))
-                        fcb_serial.reset_input_buffer() # Flush input
-                        continue
-
-                    update_ctrl_plot_data(ctrlsignals.thrustCtrl, ctrlsignals.rollCtrl, ctrlsignals.pitchCtrl, ctrlsignals.yawCtrl)
-            else:
-                pprint("%s received: %s", comReader.__name__, byte_buffer)
-                fcb_serial.reset_input_buffer() # Flush input
+            #    fcb_serial.reset_input_buffer() # Flush input
                 
             msg_cnt -= 1
 
     fcb_serial.close()
     pprint("%s done - close graphics window to exit" % comReader.__name__)
+    
+    logfile.close()
 
 
 #### Graphics objects & helper functions
@@ -472,7 +509,7 @@ pitchref_curve = ref_plot.plot(pen='g', name='Pitch ref')
 yawref_curve = ref_plot.plot(pen='b', name='Yaw ref')
 yawrateref_curve = ref_plot.plot(pen='y', name='Yaw rate ref')
 ref_plot.showGrid(x=True, y=True)
-ref_plot.setYRange(-180, 180)
+ref_plot.setYRange(-35, 35)
 
 ctrl_plot = win.addPlot()
 ctrl_plot.setLabel('bottom', "Time [s]")
@@ -482,7 +519,7 @@ ctrlroll_curve = ctrl_plot.plot(pen='g', name='Roll moment')
 ctrlpitch_curve = ctrl_plot.plot(pen='b', name='Pitch moment')
 ctrlyaw_curve = ctrl_plot.plot(pen='y', name='Yaw moment')
 ctrl_plot.showGrid(x=True, y=True)
-ctrl_plot.setYRange(-50, 50)
+ctrl_plot.setYRange(-.5, .5)
 
 
 def plotUpdate():
