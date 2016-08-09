@@ -5,7 +5,7 @@ syntax = "proto2";
 
 // Receiver signal values normalized to [-32768, 32767]
 message ReceiverSignalValuesProto {
-    optional bool is_active = 1;
+	optional bool is_active = 1;
 	optional int32 throttle = 2;
 	optional int32 aileron = 3;
 	optional int32 elevator = 4;
@@ -30,9 +30,12 @@ message SensorSamplesProto {
 	optional float accX = 4;
 	optional float accY = 5;
 	optional float accZ = 6;
-	optional float magX = 7;
-	optional float magY = 8;
-	optional float magZ = 9;
+	optional float accRoll = 7;
+	optional float accPitch = 8;
+	optional float accYaw = 9;
+	optional float magX = 10;
+	optional float magY = 11;
+	optional float magZ = 12;
 }
 
 // Actual flight states as estimated by the on-board Kalman and/or sensor fusion algorithms
@@ -70,16 +73,16 @@ message PIDControlParamsProto {
 // Contains current control reference signal values
 message ControlReferenceSignalsProto {
 	optional float refPosX = 1;
-    optional float refPosY = 2;
-    optional float refPosZ = 3;
+	optional float refPosY = 2;
+	optional float refPosZ = 3;
 	optional float refVelX = 4;
 	optional float refVelY = 5;
 	optional float refVelZ = 6;
 	optional float refRoll = 7;
 	optional float refPitch = 8;
-    optional float refYaw = 9;
-    optional float refRollRate = 10;
-    optional float refPitchRate = 11;	
+	optional float refYaw = 9;
+	optional float refRollRate = 10;
+	optional float refPitchRate = 11;	
 	optional float refYawRate = 12;
 }
 
